@@ -1,7 +1,41 @@
-name,caffeine,temp,flavor,strength
-Espresso,High,Hot,Bitter,Strong
-Latte,Medium,Hot,Creamy,Light
-Iced Latte,Medium,Iced,Creamy,Light
-Matcha Latte,Low,Either,Sweet,Light
-Hot Chocolate,None,Hot,Sweet,Light
-Iced Tea,Low,Iced,Fruity,Light
+name,caffeine,temp,flavor,strength, category
+Espresso,High,Hot,Bitter,Strong, Coffee
+Latte,Medium,Hot,Creamy,Light, Coffee
+Iced Latte,Medium,Cold,Creamy,Light, Coffee
+Cappuccino,Medium,Hot,Creamy,Medium, Coffee
+Matcha Latte,Low,Either,Sweet,Light, Non-coffee
+Hot Chocolate,None,Hot,Chocolatey,Light, Non-coffee
+Chai Tea Latte,Low,Hot,Spicy,Medium, Non-coffee
+Iced Chai Tea Latte,Low,Cold,Spicy,Medium, Non-coffee
+Iced Milk Tea,Low,Iced,Creamy,Light, Non-coffee
+Iced Caramel Macchiato,Medium,Cold,Sweet,Medium, Coffee
+Iced Mocha Frappuccino,High,Cold,Chocolatey,Strong, Coffee
+Strawberry Latte,Low,Cold,Fruity,Light, Non-coffee
+Hot Matcha Latte,Low,Hot,Earthy,Light, Non-coffee
+Americano,High,Hot,Bitter,Strong, Coffee
+Vanilla Latte,Medium,Hot,Sweet,Medium, Coffee
+Almond Milk Latte,Medium,Hot,Nutty,Light, Non-coffee
+Iced Americano,High,Cold,Bitter,Strong, Coffee
+Iced Spanish Latte,Medium,Cold,Sweet,Medium, Coffee
+Mocha,High,Hot,Chocolatey,Strong, Coffee
+Caramel Macchiato,Medium,Hot,Sweet,Medium, Coffee
+Red Velvet Latte,Low,Hot,Sweet,Light, Non-coffee
+Cookie Crumble Frappuccino,High,Cold,Sweet,Strong, Coffee
+Iced Vietnamese Coffee,High,Cold,Bitter,Strong, Coffee
+Salted Caramel Mocha,High,Hot,Sweet,Strong, Coffee
+Tiramisu Latte,Medium,Hot,Sweet,Medium, Coffee
+Dirty Horchata,Medium,Cold,Creamy,Medium, Non-coffee
+Iced Dirty Chai,Medium,Cold,Spicy,Medium, Non-coffee
+Brown Sugar Latte,Medium,Hot,Sweet,Medium, Coffee
+Iced Brown Sugar Latte,Medium,Cold,Sweet,Medium, Coffee
+Iced Affogato,High,Cold,Bitter,Strong, Coffee
+Iced White Chocolate Mocha,High,Cold,Chocolatey,Strong, Coffee
+Cookies and Cream Frappuccino,High,Cold,Sweet,Strong, Coffee
+Butterscotch Latte,Medium,Hot,Sweet,Medium, Coffee
+Biscoff Latte,Medium,Hot,Spicy,Medium, Coffee
+Iced Pumpkin Spice Latte,Medium,Cold,Spicy,Medium, Coffee
+Iced Salted Caramel,High,Cold,Sweet,Strong, Coffee
+Chamomile Tea,None,Hot,Floral,Light, Non-coffee
+Earl Grey Tea,None,Hot,Citrusy,Light, Non-coffee
+Matcha Green Tea Latte,Low,Either,Earthy,Light, Non-coffee
+
