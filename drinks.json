@@ -1,0 +1,314 @@
+[
+  {
+    "name":"Espresso",
+    "caffeine":"High",
+    "temp":"Hot",
+    "flavor":"Bitter",
+    "strength":"Strong",
+    " category":" Coffee"
+  },
+  {
+    "name":"Latte",
+    "caffeine":"Medium",
+    "temp":"Hot",
+    "flavor":"Creamy",
+    "strength":"Light",
+    " category":" Coffee"
+  },
+  {
+    "name":"Iced Latte",
+    "caffeine":"Medium",
+    "temp":"Cold",
+    "flavor":"Creamy",
+    "strength":"Light",
+    " category":" Coffee"
+  },
+  {
+    "name":"Cappuccino",
+    "caffeine":"Medium",
+    "temp":"Hot",
+    "flavor":"Creamy",
+    "strength":"Medium",
+    " category":" Coffee"
+  },
+  {
+    "name":"Matcha Latte",
+    "caffeine":"Low",
+    "temp":"Either",
+    "flavor":"Sweet",
+    "strength":"Light",
+    " category":" Non-coffee"
+  },
+  {
+    "name":"Hot Chocolate",
+    "caffeine":null,
+    "temp":"Hot",
+    "flavor":"Chocolatey",
+    "strength":"Light",
+    " category":" Non-coffee"
+  },
+  {
+    "name":"Chai Tea Latte",
+    "caffeine":"Low",
+    "temp":"Hot",
+    "flavor":"Spicy",
+    "strength":"Medium",
+    " category":" Non-coffee"
+  },
+  {
+    "name":"Iced Chai Tea Latte",
+    "caffeine":"Low",
+    "temp":"Cold",
+    "flavor":"Spicy",
+    "strength":"Medium",
+    " category":" Non-coffee"
+  },
+  {
+    "name":"Iced Milk Tea",
+    "caffeine":"Low",
+    "temp":"Cold",
+    "flavor":"Creamy",
+    "strength":"Light",
+    " category":" Non-coffee"
+  },
+  {
+    "name":"Iced Caramel Macchiato",
+    "caffeine":"Medium",
+    "temp":"Cold",
+    "flavor":"Sweet",
+    "strength":"Medium",
+    " category":" Coffee"
+  },
+  {
+    "name":"Iced Mocha Frappuccino",
+    "caffeine":"High",
+    "temp":"Cold",
+    "flavor":"Chocolatey",
+    "strength":"Strong",
+    " category":" Coffee"
+  },
+  {
+    "name":"Strawberry Latte",
+    "caffeine":"Low",
+    "temp":"Cold",
+    "flavor":"Fruity",
+    "strength":"Light",
+    " category":" Non-coffee"
+  },
+  {
+    "name":"Hot Matcha Latte",
+    "caffeine":"Low",
+    "temp":"Hot",
+    "flavor":"Earthy",
+    "strength":"Light",
+    " category":" Non-coffee"
+  },
+  {
+    "name":"Americano",
+    "caffeine":"High",
+    "temp":"Hot",
+    "flavor":"Bitter",
+    "strength":"Strong",
+    " category":" Coffee"
+  },
+  {
+    "name":"Vanilla Latte",
+    "caffeine":"Medium",
+    "temp":"Hot",
+    "flavor":"Sweet",
+    "strength":"Medium",
+    " category":" Coffee"
+  },
+  {
+    "name":"Almond Milk Latte",
+    "caffeine":"Medium",
+    "temp":"Hot",
+    "flavor":"Nutty",
+    "strength":"Light",
+    " category":" Non-coffee"
+  },
+  {
+    "name":"Iced Americano",
+    "caffeine":"High",
+    "temp":"Cold",
+    "flavor":"Bitter",
+    "strength":"Strong",
+    " category":" Coffee"
+  },
+  {
+    "name":"Iced Spanish Latte",
+    "caffeine":"Medium",
+    "temp":"Cold",
+    "flavor":"Sweet",
+    "strength":"Medium",
+    " category":" Coffee"
+  },
+  {
+    "name":"Mocha",
+    "caffeine":"High",
+    "temp":"Hot",
+    "flavor":"Chocolatey",
+    "strength":"Strong",
+    " category":" Coffee"
+  },
+  {
+    "name":"Caramel Macchiato",
+    "caffeine":"Medium",
+    "temp":"Hot",
+    "flavor":"Sweet",
+    "strength":"Medium",
+    " category":" Coffee"
+  },
+  {
+    "name":"Red Velvet Latte",
+    "caffeine":"Low",
+    "temp":"Hot",
+    "flavor":"Sweet",
+    "strength":"Light",
+    " category":" Non-coffee"
+  },
+  {
+    "name":"Cookie Crumble Frappuccino",
+    "caffeine":"High",
+    "temp":"Cold",
+    "flavor":"Sweet",
+    "strength":"Strong",
+    " category":" Coffee"
+  },
+  {
+    "name":"Iced Vietnamese Coffee",
+    "caffeine":"High",
+    "temp":"Cold",
+    "flavor":"Bitter",
+    "strength":"Strong",
+    " category":" Coffee"
+  },
+  {
+    "name":"Salted Caramel Mocha",
+    "caffeine":"High",
+    "temp":"Hot",
+    "flavor":"Sweet",
+    "strength":"Strong",
+    " category":" Coffee"
+  },
+  {
+    "name":"Tiramisu Latte",
+    "caffeine":"Medium",
+    "temp":"Hot",
+    "flavor":"Sweet",
+    "strength":"Medium",
+    " category":" Coffee"
+  },
+  {
+    "name":"Dirty Horchata",
+    "caffeine":"Medium",
+    "temp":"Cold",
+    "flavor":"Creamy",
+    "strength":"Medium",
+    " category":" Non-coffee"
+  },
+  {
+    "name":"Iced Dirty Chai",
+    "caffeine":"Medium",
+    "temp":"Cold",
+    "flavor":"Spicy",
+    "strength":"Medium",
+    " category":" Non-coffee"
+  },
+  {
+    "name":"Brown Sugar Latte",
+    "caffeine":"Medium",
+    "temp":"Hot",
+    "flavor":"Sweet",
+    "strength":"Medium",
+    " category":" Coffee"
+  },
+  {
+    "name":"Iced Brown Sugar Latte",
+    "caffeine":"Medium",
+    "temp":"Cold",
+    "flavor":"Sweet",
+    "strength":"Medium",
+    " category":" Coffee"
+  },
+  {
+    "name":"Iced Affogato",
+    "caffeine":"High",
+    "temp":"Cold",
+    "flavor":"Bitter",
+    "strength":"Strong",
+    " category":" Coffee"
+  },
+  {
+    "name":"Iced White Chocolate Mocha",
+    "caffeine":"High",
+    "temp":"Cold",
+    "flavor":"Chocolatey",
+    "strength":"Strong",
+    " category":" Coffee"
+  },
+  {
+    "name":"Cookies and Cream Frappuccino",
+    "caffeine":"High",
+    "temp":"Cold",
+    "flavor":"Sweet",
+    "strength":"Strong",
+    " category":" Coffee"
+  },
+  {
+    "name":"Butterscotch Latte",
+    "caffeine":"Medium",
+    "temp":"Hot",
+    "flavor":"Sweet",
+    "strength":"Medium",
+    " category":" Coffee"
+  },
+  {
+    "name":"Biscoff Latte",
+    "caffeine":"Medium",
+    "temp":"Hot",
+    "flavor":"Spicy",
+    "strength":"Medium",
+    " category":" Coffee"
+  },
+  {
+    "name":"Iced Pumpkin Spice Latte",
+    "caffeine":"Medium",
+    "temp":"Cold",
+    "flavor":"Spicy",
+    "strength":"Medium",
+    " category":" Coffee"
+  },
+  {
+    "name":"Iced Salted Caramel",
+    "caffeine":"High",
+    "temp":"Cold",
+    "flavor":"Sweet",
+    "strength":"Strong",
+    " category":" Coffee"
+  },
+  {
+    "name":"Chamomile Tea",
+    "caffeine":null,
+    "temp":"Hot",
+    "flavor":"Earthy",
+    "strength":"Light",
+    " category":" Non-coffee"
+  },
+  {
+    "name":"Earl Grey Tea",
+    "caffeine":null,
+    "temp":"Hot",
+    "flavor":"Earthy",
+    "strength":"Light",
+    " category":" Non-coffee"
+  },
+  {
+    "name":"Matcha Green Tea Latte",
+    "caffeine":"Low",
+    "temp":"Either",
+    "flavor":"Earthy",
+    "strength":"Light",
+    " category":" Non-coffee"
+  }
+]

@@ -5,6 +5,7 @@ ENV/
 env/
 *.pyc
 __pycache__/
+node_modules/
 
 # IDE / Editor files
 .vscode/

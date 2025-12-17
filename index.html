@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Café.ly Recommender</title>
+    <link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>☕ Café.ly</h1>
+        
+        <div id="quiz-section">
+            <!-- Progress Indicator -->
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+                <p class="progress-text" id="progress-text">Question 1 of 5</p>
+            </div>
+
+            <!-- Question Container -->
+            <div class="question-container">
+                <h2 id="question-title">Find Your Perfect Drink</h2>
+                <div id="question-options" class="options-grid"></div>
+            </div>
+        </div>
+
+        <div id="results-section" style="display: none;">
+            <h2>We Recommend:</h2>
+            <ul id="recommendations-list"></ul>
+            <button id="back-btn" class="back-btn">🔙 Take Quiz Again</button>
+        </div>
+    </div>
+
+    <script src="renderer.js"></script>
+</body>
+</html>

@@ -21,4 +21,4 @@ def recommend():
     return render_template("results.html", drinks=results)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="127.0.0.1", port=5000, debug=True)

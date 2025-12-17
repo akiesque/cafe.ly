@@ -1,0 +1,16 @@
+{
+  "name": "cafe-ly",
+  "version": "1.0.0",
+  "description": "Cafe drink recommender desktop app (Pure Electron)",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^32.1.0"
+  }
+}
+
+
