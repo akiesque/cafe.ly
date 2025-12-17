@@ -92,13 +92,12 @@ function selectOption(key, value) {
         currentStep++;
         // Smooth transition
         const questionContainer = document.querySelector('.question-container');
-        questionContainer.style.opacity = '0';
-        questionContainer.style.transform = 'translateY(-20px)';
+        questionContainer.classList.add('fade-out');
         
         setTimeout(() => {
             showQuestion();
-            questionContainer.style.opacity = '1';
-            questionContainer.style.transform = 'translateY(0)';
+            questionContainer.classList.remove('fade-out');
+            questionContainer.classList.add('fade-in');
         }, 200);
     } else {
         // All questions answered, show results
@@ -118,10 +117,10 @@ function showResults() {
     // Display results
     if (recommendations.length > 0) {
         recommendationsList.innerHTML = recommendations
-            .map(drink => `<li>${drink}</li>`)
+            .map(drink => `<li class="recommendation-item">${drink}</li>`)
             .join('');
     } else {
-        recommendationsList.innerHTML = '<li>No drinks match your preferences. Try adjusting your selections!</li>';
+        recommendationsList.innerHTML = '<li class="recommendation-item">No drinks match your preferences. Try adjusting your selections!</li>';
     }
     
     // Hide quiz, show results with animation
@@ -138,6 +137,31 @@ function showResults() {
     window.scrollTo(0, 0);
 }
 
+// Categorize caffeine based on mg value
+function categorizeCaffeine(mg) {
+    if (mg === null || mg === undefined || mg === 0) {
+        return "None";
+    } else if (mg > 100) {
+        return "High";
+    } else if (mg >= 40) {
+        return "Medium";
+    } else if (mg > 0) {
+        return "Low";
+    } else {
+        return "None";
+    }
+}
+
+// Get caffeine category for a drink (uses caffeine_mg if available, otherwise uses caffeine field)
+function getCaffeineCategory(drink) {
+    // If caffeine_mg exists, categorize it
+    if (drink.caffeine_mg !== null && drink.caffeine_mg !== undefined) {
+        return categorizeCaffeine(drink.caffeine_mg);
+    }
+    // Otherwise use the existing caffeine category
+    return drink.caffeine || "None";
+}
+
 // Recommendation logic (ported from Python)
 function recommendDrinks(preferences) {
     const scores = {};
@@ -147,16 +171,39 @@ function recommendDrinks(preferences) {
         
         for (const [feature, prefValue] of Object.entries(preferences)) {
             if (prefValue) {
-                // Handle category field which might have a leading space in JSON
-                const drinkKey = feature === 'category' ? ' category' : feature;
-                const drinkValue = drink[drinkKey] ? String(drink[drinkKey]).trim().toLowerCase() : '';
                 const prefValueLower = String(prefValue).toLowerCase();
                 
+                // Handle caffeine specially - use caffeine_mg if available
+                if (feature === 'caffeine') {
+                    const drinkCaffeineCategory = getCaffeineCategory(drink);
+                    const drinkCaffeineLower = drinkCaffeineCategory.toLowerCase();
+                    
+                    if (prefValueLower === 'none') {
+                        if (drinkCaffeineLower === 'none' || drink.caffeine_mg === null || drink.caffeine_mg === 0) {
+                            score += 1;
+                        }
+                    } else if (drinkCaffeineLower === prefValueLower) {
+                        score += 1;
+                    }
+                }
+                // Handle category field which might have a leading space in JSON
+                else if (feature === 'category') {
+                    const drinkKey = ' category';
+                    const drinkValue = drink[drinkKey] ? String(drink[drinkKey]).trim().toLowerCase() : '';
+                    if (drinkValue === prefValueLower) {
+                        score += 1;
+                    }
+                }
                 // Handle "Either" for temperature
-                if (feature === 'temp' && prefValueLower === 'either') {
+                else if (feature === 'temp' && prefValueLower === 'either') {
                     score += 1; // Match any temperature
-                } else if (drinkValue === prefValueLower) {
-                    score += 1;
+                }
+                // Standard matching
+                else {
+                    const drinkValue = drink[feature] ? String(drink[feature]).trim().toLowerCase() : '';
+                    if (drinkValue === prefValueLower) {
+                        score += 1;
+                    }
                 }
             }
         }

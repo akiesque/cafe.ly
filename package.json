@@ -4,12 +4,14 @@
   "description": "Cafe drink recommender desktop app (Pure Electron)",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "build-css": "tailwindcss -i ./static/style.css -o ./static/style.css --watch"
   },
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "electron": "^32.1.0"
+    "electron": "^32.1.0",
+    "tailwindcss": "^3.4.0"
   }
 }
 

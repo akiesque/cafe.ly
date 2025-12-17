@@ -1,17 +1,43 @@
 import pandas as pd
+from sklearn.metrics.pairwise import cosine_similarity
 
 # Load drinks dataset
 drinks = pd.read_csv("drinks.csv")
 
-def recommend_drinks(preferences):
-    scores = {}
-    for _, row in drinks.iterrows():
-        score = 0
-        for feature, pref_value in preferences.items():
-            if pref_value and str(row[feature]).lower() == pref_value.lower():
-                score += 1
-        scores[row["name"]] = score
+SIM_FEATURES = ["caffeine", "flavor", "strength"]
 
-    # Sort by score
-    ranked = sorted(scores.items(), key=lambda x: x[1], reverse=True)
-    return [drink for drink, score in ranked if score > 0][:3]  # top 3
+HARD_FILTERS = ["temp", "category"]
+
+
+def recommend_drinks(preferences, top_k=3):
+    df = drinks.copy()
+
+    for feature in HARD_FILTERS:
+        pref = preferences.get(feature)
+        if pref:
+            df = df[df[feature].str.lower() == pref.lower()]
+
+    if df.empty:
+        df = drinks.copy()
+
+    encoded = pd.get_dummies(df[SIM_FEATURES])
+
+    user_vec = pd.Series(0, index=encoded.columns)
+
+    for feature, value in preferences.items():
+        col = f"{feature}_{value}"
+        if col in user_vec:
+            user_vec[col] = 1
+
+    similarities = cosine_similarity(
+        [user_vec.values],
+        encoded.values
+    )[0]
+
+    df["score"] = similarities
+
+    return (
+        df.sort_values("score", ascending=False)
+          .head(top_k)["name"]
+          .tolist()
+    )
