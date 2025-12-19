@@ -12,6 +12,11 @@ let preferences = {
 // Questions configuration
 const questions = [
     {
+        key: 'name',
+        title: 'Welcome to Café.ly! What can we do for you today?',
+        options: ['Recommend a drink', 'Find a coffee shop']
+    },
+    {
         key: 'caffeine',
         title: 'How much caffeine do you want?',
         options: ['High', 'Medium', 'Low', 'None']
