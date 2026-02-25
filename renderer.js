@@ -13,7 +13,7 @@ let preferences = {
 const questions = [
     {
         key: 'name',
-        title: 'Welcome to Café.ly! What can we do for you today?',
+        title: 'What can we do for you today?',
         options: ['Recommend a drink', 'Find a coffee shop']
     },
     {
@@ -272,15 +272,26 @@ document.addEventListener('DOMContentLoaded', async () => {
     await loadDrinks();
     
     const backBtn = document.getElementById('back-btn');
+    const startBtn = document.getElementById('start-btn');
+    const startSection = document.getElementById('start-section');
     const quizSection = document.getElementById('quiz-section');
     const resultsSection = document.getElementById('results-section');
     
-    // Show first question
-    showQuestion();
+    // Start on welcome screen; quiz appears after clicking Start
+    quizSection.style.display = 'none';
+    startSection.style.display = 'block';
     
     // Arrow buttons: scroll choices left/right when >= 4 options
     document.getElementById('nav-arrow-left').addEventListener('click', () => scrollOptions('left'));
     document.getElementById('nav-arrow-right').addEventListener('click', () => scrollOptions('right'));
+
+    // Start button -> show quiz and first question
+    startBtn.addEventListener('click', () => {
+        startSection.style.display = 'none';
+        quizSection.style.display = 'block';
+        currentStep = 0;
+        showQuestion();
+    });
     
     // Handle back button
     backBtn.addEventListener('click', () => {

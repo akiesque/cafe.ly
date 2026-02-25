@@ -110,11 +110,6 @@
 ! tailwindcss v3.4.19 | MIT License | https://tailwindcss.com
 */
 
-/*
-1. Prevent padding and border from affecting element width. (https://github.com/mozdevs/cssremedy/issues/4)
-2. Allow adding a border to an element by just adding a border-width. (https://github.com/tailwindcss/tailwindcss/pull/116)
-*/
-
 *,
 ::before,
 ::after {
@@ -132,16 +127,6 @@
 ::after {
   --tw-content: '';
 }
-
-/*
-1. Use a consistent sensible line-height in all browsers.
-2. Prevent adjustments of font size after orientation changes in iOS.
-3. Use a more readable tab size.
-4. Use the user's configured `sans` font-family by default.
-5. Use the user's configured `sans` font-feature-settings by default.
-6. Use the user's configured `sans` font-variation-settings by default.
-7. Disable tap highlights on iOS
-*/
 
 html,
 :host {
@@ -232,13 +217,6 @@ strong {
   font-weight: bolder;
 }
 
-/*
-1. Use the user's configured `mono` font-family by default.
-2. Use the user's configured `mono` font-feature-settings by default.
-3. Use the user's configured `mono` font-variation-settings by default.
-4. Correct the odd `em` font sizing in all browsers.
-*/
-
 code,
 kbd,
 samp,
@@ -280,12 +258,6 @@ sub {
 sup {
   top: -0.5em;
 }
-
-/*
-1. Remove text indentation from table contents in Chrome and Safari. (https://bugs.chromium.org/p/chromium/issues/detail?id=999088, https://bugs.webkit.org/show_bug.cgi?id=201297)
-2. Correct table border color inheritance in all Chrome and Safari. (https://bugs.chromium.org/p/chromium/issues/detail?id=935729, https://bugs.webkit.org/show_bug.cgi?id=195016)
-3. Remove gaps between table borders by default.
-*/
 
 table {
   text-indent: 0;
@@ -481,11 +453,6 @@ textarea {
   resize: vertical;
 }
 
-/*
-1. Reset the default placeholder opacity in Firefox. (https://github.com/tailwindlabs/tailwindcss/issues/3300)
-2. Set the default placeholder color to the user's configured gray 400 color.
-*/
-
 input::-moz-placeholder, textarea::-moz-placeholder {
   opacity: 1;
   /* 1 */
@@ -518,12 +485,6 @@ Make sure disabled buttons don't get the pointer cursor.
   cursor: default;
 }
 
-/*
-1. Make replaced elements `display: block` by default. (https://github.com/mozdevs/cssremedy/issues/14)
-2. Add `vertical-align: middle` to align replaced elements more sensibly by default. (https://github.com/jensimmons/cssremedy/issues/14#issuecomment-634934210)
-   This can trigger a poorly considered lint error in some tools but is included by design.
-*/
-
 img,
 svg,
 video,
@@ -538,15 +499,26 @@ object {
   /* 2 */
 }
 
-/*
-Constrain images and videos to the parent width and preserve their intrinsic aspect ratio. (https://github.com/mozdevs/cssremedy/issues/14)
-*/
-
 img,
 video {
   max-width: 100%;
   height: auto;
 }
+
+/* Main font */
+
+.balsamiq-sans-regular {
+  font-family: "Balsamiq Sans", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.balsamiq-sans-bold {
+  font-family: "Balsamiq Sans", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
 
 /* Make elements with the HTML hidden attribute stay hidden by default */
 
@@ -610,7 +582,7 @@ body {
 .main-page-bg-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.5);
 }
 
 .logo-sign {
@@ -701,10 +673,28 @@ body {
   left: 50%;
   top: 147px;
   transform: translateX(-50%);
-  background-color: #ffead6;
-  border: 3px solid #c3752b;
+  background-color: transparent;
+  border: none;
   padding: 1.5rem;
   overflow: auto;
+  position: relative;
+}
+
+/* Inner card background image from assets/card_bg.png */
+.card-inner-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  display: block;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.app-container {
+  position: relative;
+  z-index: 1;
 }
 
 /* Navigation arrows (Figma 34-3, 34-4) – only visible when >= 4 choices */
@@ -885,21 +875,54 @@ body {
 
 /* App Container (inside card) */
 
-.app-container {
-  margin: 0 auto;
-  max-width: 42rem;
-  padding: 0.5rem 0;
-  height: 100%;
-  box-sizing: border-box;
-}
-
-.app-title {
+ .app-title {
   margin-bottom: 2rem;
   text-align: center;
   font-size: 3rem;
   line-height: 1;
   --tw-text-opacity: 1;
   color: rgb(107 66 38 / var(--tw-text-opacity, 1));
+}
+
+/* Start screen before quiz */
+
+.start-section {
+  text-align: center;
+  margin-top: 1.5rem;
+}
+
+.start-title {
+  font-size: 2.25rem;
+  line-height: 2.5rem;
+  margin-bottom: 0.75rem;
+  color: rgb(107 66 38);
+}
+
+.start-subtitle {
+  font-size: 1rem;
+  line-height: 1.5rem;
+  color: rgb(75 85 99);
+  margin-bottom: 1.75rem;
+}
+
+.start-btn {
+  cursor: pointer;
+  border-radius: 9999px;
+  border: 2px solid rgb(107 66 38);
+  background-color: #ffffff;
+  padding: 0.75rem 2.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: rgb(107 66 38);
+  transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.start-btn:hover {
+  background-color: rgb(107 66 38);
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1),
+              0 4px 6px -4px rgb(0 0 0 / 0.1);
 }
 
 /* Progress Indicator */

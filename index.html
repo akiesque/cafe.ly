@@ -5,8 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Café.ly Recommender</title>
     <link rel="stylesheet" href="static/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Balsamiq+Sans:wght@400;700&display=swap" rel="stylesheet">
 </head>
-<body class="main-page">
+<body class="main-page balsamiq-sans-regular">
     <div class="main-page-bg" aria-hidden="true">
         <img class="main-page-bg-img" src="assets/bg.png" alt="">
         <div class="main-page-bg-overlay"></div>
@@ -22,9 +25,16 @@
         <div class="card card-outer card-border"></div>
         <div class="card card-dashed"><img src="assets/card-dashed.png" alt=""></div>
         <div class="card card-inner">
+            <img src="assets/card_bg.png" alt="" class="card-inner-bg">
             <div class="app-container">
 
-                <div id="quiz-section">
+                <div id="start-section" class="start-section">
+                    <h2 class="start-title">Welcome to Café.ly!</h2>
+                    <p class="start-subtitle">We&apos;ll help you find the perfect drink in just a few quick questions.</p>
+                    <button id="start-btn" class="start-btn">Start</button>
+                </div>
+
+                <div id="quiz-section" style="display: none;">
                     <div class="progress-container">
                         <p id="progress-text" class="progress-text">Question 1 of 6</p>
                     </div>
