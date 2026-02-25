@@ -65,16 +65,25 @@ function updateProgress() {
     progressText.textContent = `Question ${currentStep + 1} of ${totalQuestions}`;
 }
 
+// Scroll step for arrow navigation (when >= 4 choices)
+const OPTIONS_SCROLL_STEP = 260;
+
 // Display current question
 function showQuestion() {
     const question = questions[currentStep];
     const questionTitle = document.getElementById('question-title');
     const questionOptions = document.getElementById('question-options');
+    const optionsScrollWrap = document.getElementById('options-scroll-wrap');
+    const navArrows = document.getElementById('nav-arrows');
     
     questionTitle.textContent = question.title;
     
     // Clear previous options
     questionOptions.innerHTML = '';
+    questionOptions.classList.remove('has-many-choices');
+    questionOptions.classList.remove('two-choices');
+    navArrows.classList.remove('nav-arrows-visible');
+    if (optionsScrollWrap) optionsScrollWrap.scrollLeft = 0;
     
     // Create buttons for each option
     question.options.forEach(option => {
@@ -84,6 +93,23 @@ function showQuestion() {
         button.addEventListener('click', () => selectOption(question.key, option));
         questionOptions.appendChild(button);
     });
+    
+    // Layout tweaks based on number of choices
+    const optionCount = question.options.length;
+
+    // Show arrow buttons and horizontal scroll when 4+ choices; hide scrollbar
+    if (optionCount >= 4) {
+        questionOptions.classList.add('has-many-choices');
+        navArrows.classList.add('nav-arrows-visible');
+        navArrows.setAttribute('aria-hidden', 'false');
+    } else {
+        navArrows.setAttribute('aria-hidden', 'true');
+    }
+
+    // When there are exactly 2 choices, center the buttons
+    if (optionCount === 2) {
+        questionOptions.classList.add('two-choices');
+    }
     
     updateProgress();
 }
@@ -128,8 +154,13 @@ function showResults() {
         recommendationsList.innerHTML = '<li class="recommendation-item">No drinks match your preferences. Try adjusting your selections!</li>';
     }
     
-    // Hide quiz, show results with animation
+    // Hide quiz and arrow nav, show results with animation
     quizSection.style.display = 'none';
+    const navArrows = document.getElementById('nav-arrows');
+    if (navArrows) {
+        navArrows.classList.remove('nav-arrows-visible');
+        navArrows.setAttribute('aria-hidden', 'true');
+    }
     resultsSection.style.display = 'block';
     resultsSection.style.opacity = '0';
     resultsSection.style.transform = 'translateY(20px)';
@@ -226,6 +257,16 @@ function recommendDrinks(preferences) {
     return ranked;
 }
 
+// Scroll options left/right (used when >= 4 choices)
+function scrollOptions(direction) {
+    const navArrows = document.getElementById('nav-arrows');
+    const optionsScrollWrap = document.getElementById('options-scroll-wrap');
+    const questionOptions = document.getElementById('question-options');
+    if (!navArrows || !optionsScrollWrap || !questionOptions || !questionOptions.classList.contains('has-many-choices')) return;
+    const step = direction === 'left' ? -OPTIONS_SCROLL_STEP : OPTIONS_SCROLL_STEP;
+    optionsScrollWrap.scrollBy({ left: step, behavior: 'smooth' });
+}
+
 // Initialize app
 document.addEventListener('DOMContentLoaded', async () => {
     await loadDrinks();
@@ -236,6 +277,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     // Show first question
     showQuestion();
+    
+    // Arrow buttons: scroll choices left/right when >= 4 options
+    document.getElementById('nav-arrow-left').addEventListener('click', () => scrollOptions('left'));
+    document.getElementById('nav-arrow-right').addEventListener('click', () => scrollOptions('right'));
     
     // Handle back button
     backBtn.addEventListener('click', () => {

@@ -12,14 +12,17 @@
         <div class="main-page-bg-overlay"></div>
     </div>
 
+    <div class="logo-sign">
+        <img src="assets/logocafelys.png" alt="Café.ly logo">
+    </div>
+
     <div class="main-interface">
         <div class="card card-outline"></div>
         <div class="card card-outer"></div>
         <div class="card card-outer card-border"></div>
-        <div class="card card-dashed"></div>
+        <div class="card card-dashed"><img src="assets/card-dashed.png" alt=""></div>
         <div class="card card-inner">
             <div class="app-container">
-                <h1 class="app-title">☕ Café.ly</h1>
 
                 <div id="quiz-section">
                     <div class="progress-container">
@@ -28,7 +31,9 @@
 
                     <div class="question-container">
                         <h2 id="question-title" class="question-title">Find Your Perfect Drink</h2>
-                        <div id="question-options" class="options-grid"></div>
+                        <div class="options-scroll-wrap" id="options-scroll-wrap">
+                            <div id="question-options" class="options-grid"></div>
+                        </div>
                     </div>
                 </div>
 
@@ -41,12 +46,14 @@
         </div>
     </div>
 
-    <button type="button" class="nav-arrow nav-arrow-left" aria-label="Previous">
-        <svg width="91" height="91" viewBox="0 0 91 91" fill="none" aria-hidden="true"><path d="M56 45.5L35 28v35l21-17.5z" fill="#ffead6"/></svg>
-    </button>
-    <button type="button" class="nav-arrow nav-arrow-right" aria-label="Next">
-        <svg width="91" height="91" viewBox="0 0 91 91" fill="none" aria-hidden="true"><path d="M35 45.5L56 63V28L35 45.5z" fill="#ffead6"/></svg>
-    </button>
+    <div class="nav-arrows" id="nav-arrows" aria-hidden="true">
+        <button type="button" class="nav-arrow nav-arrow-left" id="nav-arrow-left" aria-label="Scroll choices left">
+            <img src="assets/arrow-left.png" alt="" width="91" height="91">
+        </button>
+        <button type="button" class="nav-arrow nav-arrow-right" id="nav-arrow-right" aria-label="Scroll choices right">
+            <img src="assets/arrow-right.png" alt="" width="91" height="91">
+        </button>
+    </div>
 
     <div class="progress-bar-outer">
         <div class="progress-bar-layer progress-bar-outline"></div>

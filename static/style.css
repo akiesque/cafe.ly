@@ -613,6 +613,23 @@ body {
   background: rgba(255, 255, 255, 0.25);
 }
 
+.logo-sign {
+  position: absolute;
+  left: 50%;
+  top: -11px;
+  transform: translateX(-50%);
+  width: 400px;
+  max-width: 100%;
+  pointer-events: none;
+  z-index: 8;
+}
+
+.logo-sign img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
 .main-interface {
   position: relative;
   width: 821px;
@@ -664,8 +681,18 @@ body {
   left: 50%;
   top: 137px;
   transform: translateX(-50%);
-  border: 8px dashed #d8a372;
+  border-radius: 56px;
   background: transparent;
+  overflow: hidden;
+}
+
+.main-interface .card-dashed img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  display: block;
 }
 
 .main-interface .card-inner {
@@ -680,13 +707,24 @@ body {
   overflow: auto;
 }
 
-/* Navigation arrows (Figma node 34-9) */
+/* Navigation arrows (Figma 34-3, 34-4) – only visible when >= 4 choices */
+
+.nav-arrows {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+
+.nav-arrows.nav-arrows-visible {
+  opacity: 1;
+  pointer-events: auto;
+}
 
 .nav-arrow {
   position: absolute;
   width: 91px;
   height: 91px;
-  top: 401px;
+  top: 396px;
   padding: 0;
   border: none;
   background: transparent;
@@ -695,20 +733,76 @@ body {
   align-items: center;
   justify-content: center;
   z-index: 10;
+  transition: opacity 0.35s ease, transform 0.35s ease;
 }
 
-.nav-arrow svg {
+.nav-arrow img {
   width: 100%;
   height: 100%;
+  display: block;
   pointer-events: none;
 }
 
+/* Half outside card, half overlapping (card is 821px centered: 50% ± 410.5px; button center at card edge) */
 .nav-arrow-left {
-  left: 76px;
+  left: calc(50% - 410.5px - 45.5px);
+  opacity: 0;
+  transform: translateX(-24px);
 }
 
 .nav-arrow-right {
-  left: 859px;
+  left: calc(50% + 410.5px - 45.5px);
+  opacity: 0;
+  transform: translateX(24px);
+}
+
+.nav-arrows.nav-arrows-visible .nav-arrow-left {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.nav-arrows.nav-arrows-visible .nav-arrow-right {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Options scroll area – no scrollbar, scroll via arrows when >= 4 choices */
+
+.options-scroll-wrap {
+  overflow-x: hidden;
+  overflow-y: visible;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.options-scroll-wrap::-webkit-scrollbar {
+  display: none;
+}
+
+.options-grid.has-many-choices {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.options-grid.has-many-choices .option-btn {
+  flex-shrink: 0;
+  min-width: 140px;
+}
+
+/* Exactly two choices – center the buttons */
+.options-grid.two-choices {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.options-grid.two-choices .option-btn {
+  flex-shrink: 0;
+  min-width: 160px;
+  max-width: 220px;
 }
 
 /* Bottom progress bar (Figma progress bar) */

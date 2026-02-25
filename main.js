@@ -5,7 +5,7 @@ function createWindow() {
   const win = new BrowserWindow({
     width: 950,
     height: 900,
-    resizable: false,
+    // resizable: false, // remove after testing
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true
