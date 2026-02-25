@@ -6,30 +6,55 @@
     <title>Café.ly Recommender</title>
     <link rel="stylesheet" href="static/style.css">
 </head>
-<body>
-    <div class="app-container">
-        <h1 class="app-title">☕ Café.ly</h1>
-        
-        <div id="quiz-section">
-            <!-- Progress Indicator -->
-            <div class="progress-container">
-                <div class="progress-bar">
-                    <div id="progress-fill" class="progress-fill"></div>
-                </div>
-                <p id="progress-text" class="progress-text">Question 1 of 5</p>
-            </div>
+<body class="main-page">
+    <div class="main-page-bg" aria-hidden="true">
+        <img class="main-page-bg-img" src="assets/bg.png" alt="">
+        <div class="main-page-bg-overlay"></div>
+    </div>
 
-            <!-- Question Container -->
-            <div class="question-container">
-                <h2 id="question-title" class="question-title">Find Your Perfect Drink</h2>
-                <div id="question-options" class="options-grid"></div>
+    <div class="main-interface">
+        <div class="card card-outline"></div>
+        <div class="card card-outer"></div>
+        <div class="card card-outer card-border"></div>
+        <div class="card card-dashed"></div>
+        <div class="card card-inner">
+            <div class="app-container">
+                <h1 class="app-title">☕ Café.ly</h1>
+
+                <div id="quiz-section">
+                    <div class="progress-container">
+                        <p id="progress-text" class="progress-text">Question 1 of 6</p>
+                    </div>
+
+                    <div class="question-container">
+                        <h2 id="question-title" class="question-title">Find Your Perfect Drink</h2>
+                        <div id="question-options" class="options-grid"></div>
+                    </div>
+                </div>
+
+                <div id="results-section" class="results-section" style="display: none;">
+                    <h2 class="results-title">We Recommend:</h2>
+                    <ul id="recommendations-list" class="recommendations-list"></ul>
+                    <button id="back-btn" class="back-btn">🔙 Take Quiz Again</button>
+                </div>
             </div>
         </div>
+    </div>
 
-        <div id="results-section" class="results-section" style="display: none;">
-            <h2 class="results-title">We Recommend:</h2>
-            <ul id="recommendations-list" class="recommendations-list"></ul>
-            <button id="back-btn" class="back-btn">🔙 Take Quiz Again</button>
+    <button type="button" class="nav-arrow nav-arrow-left" aria-label="Previous">
+        <svg width="91" height="91" viewBox="0 0 91 91" fill="none" aria-hidden="true"><path d="M56 45.5L35 28v35l21-17.5z" fill="#ffead6"/></svg>
+    </button>
+    <button type="button" class="nav-arrow nav-arrow-right" aria-label="Next">
+        <svg width="91" height="91" viewBox="0 0 91 91" fill="none" aria-hidden="true"><path d="M35 45.5L56 63V28L35 45.5z" fill="#ffead6"/></svg>
+    </button>
+
+    <div class="progress-bar-outer">
+        <div class="progress-bar-layer progress-bar-outline"></div>
+        <div class="progress-bar-layer progress-bar-shadow"></div>
+        <div class="progress-bar-layer progress-bar-border"></div>
+        <div class="progress-bar-layer progress-bar-dashed"></div>
+        <div class="progress-bar-layer progress-bar-track">
+            <div id="progress-fill" class="progress-bar-fill"></div>
         </div>
     </div>
 
