@@ -2,7 +2,7 @@
   "name": "cafe-ly",
   "version": "1.0.0",
   "description": "Cafe drink recommender desktop app (Pure Electron)",
-  "main": "main.js",
+  "main": "electron/main.js",
   "scripts": {
     "start": "electron .",
     "build-css": "tailwindcss -i ./static/style.css -o ./static/style.css --watch"
@@ -12,7 +12,9 @@
   "devDependencies": {
     "electron": "^32.1.0",
     "tailwindcss": "^3.4.0"
+  },
+  "dependencies": {
+    "fs": "^0.0.1-security",
+    "toml": "^3.0.0"
   }
 }
-
-

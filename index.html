@@ -23,10 +23,38 @@
         <div class="card card-outline"></div>
         <div class="card card-outer"></div>
         <div class="card card-outer card-border"></div>
-        <div class="card card-dashed"><img src="assets/card-dashed.png" alt=""></div>
+        <div class="card card-dashed"><img src="assets.card-dashed.png" alt=""></div>
         <div class="card card-inner">
-            <img src="assets/card_bg.png" alt="" class="card-inner-bg">
+            <img src="assets/card_bg.png" alt="" class="card-inner-bg card-inner-bg-quiz">
+            <img src="assets/main_interface_coffeeshop.png" alt="" class="card-inner-bg card-inner-bg-coffee">
             <div class="app-container">
+
+                <div id="coffee-finder-ui" class="coffee-finder-ui" style="display: none;">
+                    <h2 class="question-title">Find a Coffee Shop</h2>
+
+                    <div class="coffee-finder-controls">
+                        <input
+                            id="coffee-finder-address"
+                            type="text"
+                            class="coffee-finder-input"
+                            placeholder="Enter your address or area" />
+                        <button id="coffee-finder-search-btn" class="option-btn">
+                            Find Coffee Shops
+                        </button>
+                    </div>
+
+                    <div class="coffee-finder-layout">
+                        <div class="coffee-finder-map">
+                            <iframe
+                                id="coffee-finder-map"
+                                title="Coffee shops map"
+                                style="border:0; width:100%; height:100%;"
+                                loading="lazy">
+                            </iframe>
+                        </div>
+                        <ul id="coffee-finder-results" class="recommendations-list"></ul>
+                    </div>
+                </div>
 
                 <div id="start-section" class="start-section">
                     <h2 class="start-title">Welcome to Café.ly!</h2>

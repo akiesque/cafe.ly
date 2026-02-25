@@ -116,6 +116,12 @@ function showQuestion() {
 
 // Handle option selection
 function selectOption(key, value) {
+    // Special case: user wants to find a coffee shop instead of a drink recommendation
+    if (key === 'name' && value === 'Find a coffee shop') {
+        startCoffeeShopFlow();
+        return;
+    }
+
     preferences[key] = value;
     
     // Move to next question or show results
@@ -171,6 +177,94 @@ function showResults() {
     }, 50);
     
     window.scrollTo(0, 0);
+}
+
+// Coffee shop finder flow (Foursquare backend, via preload -> window.coffeeFinder)
+async function startCoffeeShopFlow() {
+    if (!window.coffeeFinder || typeof window.coffeeFinder.search !== 'function') {
+        alert('Coffee finder is not available right now.');
+        return;
+    }
+
+    const quizSection = document.getElementById('quiz-section');
+    const resultsSection = document.getElementById('results-section');
+    const coffeeFinderUi = document.getElementById('coffee-finder-ui');
+    const addressInput = document.getElementById('coffee-finder-address');
+    const searchBtn = document.getElementById('coffee-finder-search-btn');
+    const resultsList = document.getElementById('coffee-finder-results');
+    const mapFrame = document.getElementById('coffee-finder-map');
+    const cardInner = document.querySelector('.card-inner');
+
+    // Show the coffee-finder UI, hide quiz/results
+    quizSection.style.display = 'none';
+    resultsSection.style.display = 'none';
+    coffeeFinderUi.style.display = 'block';
+    if (cardInner) {
+        cardInner.classList.add('card-inner--coffee');
+    }
+    document.body.classList.add('coffee-mode');
+
+    async function runSearch() {
+        const addr = addressInput.value.trim();
+        if (!addr) return;
+
+        resultsList.innerHTML = '<li class="recommendation-item">Searching for nearby coffee shops...</li>';
+
+        try {
+            const shops = await window.coffeeFinder.search(addr);
+
+            if (!Array.isArray(shops) || shops.length === 0) {
+                resultsList.innerHTML = '<li class="recommendation-item">No coffee shops found.</li>';
+                return;
+            }
+
+            const first = shops[0];
+            if (typeof first.latitude === 'number' && typeof first.longitude === 'number') {
+                const lat = first.latitude;
+                const lon = first.longitude;
+                mapFrame.src =
+                    `https://www.openstreetmap.org/export/embed.html?marker=${lat},${lon}#map=15/${lat}/${lon}`;
+            }
+
+            resultsList.innerHTML = shops.map((shop) => {
+                const name = shop.name || 'Coffee shop';
+                const distance_m = typeof shop.distance_m === 'number' ? shop.distance_m : 0;
+                const distance_km = (distance_m / 1000).toFixed(2);
+                const addressText = shop.address || '';
+
+                let sentimentLabel = '';
+                if (typeof shop.sentiment === 'number') {
+                    if (shop.sentiment > 0.25) sentimentLabel = '😊 Positive vibe';
+                    else if (shop.sentiment < -0.25) sentimentLabel = '☹️ Mixed reviews';
+                    else sentimentLabel = '😐 Neutral';
+                }
+
+                const rating = typeof shop.rating === 'number' ? `${shop.rating.toFixed(1)}★` : 'N/A';
+
+                return `
+                    <li class="recommendation-item">
+                        <div><strong>${name}</strong></div>
+                        <div>Rating: ${rating}</div>
+                        <div>Distance: ${distance_km} km</div>
+                        ${addressText ? `<div>${addressText}</div>` : ''}
+                        ${sentimentLabel ? `<div>${sentimentLabel}</div>` : ''}
+                    </li>
+                `;
+            }).join('');
+
+            window.scrollTo(0, 0);
+        } catch (error) {
+            console.error('Error finding coffee shops:', error);
+            resultsList.innerHTML = '<li class="recommendation-item">Error finding coffee shops. Please try again later.</li>';
+            alert('Error finding coffee shops. Please check your network or try again.');
+        }
+    }
+
+    // Attach once
+    if (!searchBtn._coffeeFinderBound) {
+        searchBtn.addEventListener('click', runSearch);
+        searchBtn._coffeeFinderBound = true;
+    }
 }
 
 // Categorize caffeine based on mg value
@@ -304,7 +398,13 @@ document.addEventListener('DOMContentLoaded', async () => {
             strength: null,
             category: null
         };
-        
+
+        const cardInner = document.querySelector('.card-inner');
+        if (cardInner) {
+            cardInner.classList.remove('card-inner--coffee');
+        }
+        document.body.classList.remove('coffee-mode');
+
         // Show quiz, hide results
         resultsSection.style.display = 'none';
         quizSection.style.display = 'block';
