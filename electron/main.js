@@ -3,10 +3,26 @@ const path = require("path");
 
 // IPC handler for coffee finder – calls the OSM-based backend.
 ipcMain.handle("coffeeFinder:search", async (_event, address) => {
+  // Lazy-load to keep startup fast and avoid circular deps.
   // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const { findCoffeeShopsByAddressOSM } = require("../src/coffeeFinder/osmFinder");
+  const { findCoffeeShopsByAddress } = require("../src/coffeeFinder/osmFinder");
   const trimmed = String(address ?? "").trim();
-  return await findCoffeeShopsByAddressOSM(trimmed);
+  if (!trimmed) {
+    return { user: null, results: [] };
+  }
+
+  try {
+    return await findCoffeeShopsByAddress(trimmed);
+  } catch (error) {
+    console.error("OSM coffee finder error:", error);
+    return {
+      user: null,
+      results: [],
+      error: "osm_overpass_busy",
+      message:
+        "The OpenStreetMap Overpass servers are busy right now. Please try again in a minute.",
+    };
+  }
 });
 
 function createWindow() {

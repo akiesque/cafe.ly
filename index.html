@@ -8,6 +8,12 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Balsamiq+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
+    >
 </head>
 <body class="main-page balsamiq-sans-regular">
     <div class="main-page-bg" aria-hidden="true">
@@ -45,12 +51,11 @@
 
                     <div class="coffee-finder-layout">
                         <div class="coffee-finder-map">
-                            <iframe
+                            <div
                                 id="coffee-finder-map"
-                                title="Coffee shops map"
                                 style="border:0; width:100%; height:100%;"
-                                loading="lazy">
-                            </iframe>
+                                aria-label="Coffee shops map">
+                            </div>
                         </div>
                         <ul id="coffee-finder-results" class="recommendations-list"></ul>
                     </div>
@@ -103,6 +108,10 @@
         </div>
     </div>
 
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
+    </script>
+    <script src="src/coffeeFinder/map.js"></script>
     <script src="renderer.js"></script>
 </body>
 </html>

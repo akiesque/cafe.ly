@@ -179,9 +179,11 @@ function showResults() {
     window.scrollTo(0, 0);
 }
 
-// Coffee shop finder flow (Foursquare backend, via preload -> window.coffeeFinder)
+// Coffee shop finder flow (OSM backend, via preload -> window.api.findCoffee)
 async function startCoffeeShopFlow() {
-    if (!window.coffeeFinder || typeof window.coffeeFinder.search !== 'function') {
+    const hasNewApi = window.api && typeof window.api.findCoffee === 'function';
+    const hasLegacyApi = window.coffeeFinder && typeof window.coffeeFinder.search === 'function';
+    if (!hasNewApi && !hasLegacyApi) {
         alert('Coffee finder is not available right now.');
         return;
     }
@@ -192,8 +194,10 @@ async function startCoffeeShopFlow() {
     const addressInput = document.getElementById('coffee-finder-address');
     const searchBtn = document.getElementById('coffee-finder-search-btn');
     const resultsList = document.getElementById('coffee-finder-results');
-    const mapFrame = document.getElementById('coffee-finder-map');
+    const mapContainer = document.getElementById('coffee-finder-map');
     const cardInner = document.querySelector('.card-inner');
+
+    let mapInitialized = false;
 
     // Show the coffee-finder UI, hide quiz/results
     quizSection.style.display = 'none';
@@ -211,52 +215,127 @@ async function startCoffeeShopFlow() {
         resultsList.innerHTML = '<li class="recommendation-item">Searching for nearby coffee shops...</li>';
 
         try {
-            const shops = await window.coffeeFinder.search(addr);
+            let data;
+            if (window.api && typeof window.api.findCoffee === 'function') {
+                data = await window.api.findCoffee(addr);
+            } else if (window.coffeeFinder && typeof window.coffeeFinder.search === 'function') {
+                // Backwards-compatible: legacy API returned a flat array.
+                const shopsLegacy = await window.coffeeFinder.search(addr);
+                data = {
+                    user: null,
+                    results: Array.isArray(shopsLegacy) ? shopsLegacy : [],
+                };
+            } else {
+                throw new Error('Coffee finder API is not available.');
+            }
 
-            if (!Array.isArray(shops) || shops.length === 0) {
+            if (data && data.error === 'osm_overpass_busy') {
+                const friendly = data.message || 'The coffee shop map is busy right now. Please try again in a minute.';
+                resultsList.innerHTML = `<li class="recommendation-item">${friendly}</li>`;
+                return;
+            }
+
+            const user = data && data.user;
+            const shops = Array.isArray(data && data.results) ? data.results : [];
+
+            if (!shops.length) {
                 resultsList.innerHTML = '<li class="recommendation-item">No coffee shops found.</li>';
                 return;
             }
 
-            const first = shops[0];
-            if (typeof first.latitude === 'number' && typeof first.longitude === 'number') {
-                const lat = first.latitude;
-                const lon = first.longitude;
-                mapFrame.src =
-                    `https://www.openstreetmap.org/export/embed.html?marker=${lat},${lon}#map=15/${lat}/${lon}`;
+            if (mapContainer && window.cafeMap && typeof window.cafeMap.initMap === 'function') {
+                const centerLat = user && typeof user.lat === 'number' ? user.lat : shops[0].latitude;
+                const centerLon = user && typeof user.lon === 'number' ? user.lon : shops[0].longitude;
+                if (typeof centerLat === 'number' && typeof centerLon === 'number') {
+                    window.cafeMap.initMap(centerLat, centerLon);
+                    mapInitialized = true;
+                }
             }
 
-            resultsList.innerHTML = shops.map((shop) => {
+            if (mapInitialized && window.cafeMap && typeof window.cafeMap.clearMarkers === 'function') {
+                window.cafeMap.clearMarkers();
+            }
+
+            const openingStatusFromShop = (shop) => {
+                const oh = shop && shop.opening_hours;
+                if (!oh) return 'No data';
+                if (oh.status) return oh.status;
+                if (oh.is_open_now === true) return 'Open now';
+                if (oh.is_open_now === false) return 'Closed';
+                return 'No data';
+            };
+
+            const iconLineFromShop = (shop) => {
+                const icons = Array.isArray(shop.amenity_icons) ? shop.amenity_icons : [];
+                return icons.length ? icons.join(' ') : '☕';
+            };
+
+            const shopsWithIds = shops.map((shop, index) => ({
+                ...shop,
+                _id: String(shop.id ?? index),
+            }));
+
+            // Add markers for each shop.
+            if (mapInitialized && window.cafeMap && typeof window.cafeMap.addMarker === 'function') {
+                shopsWithIds.forEach((shop) => {
+                    if (typeof shop.latitude === 'number' && typeof shop.longitude === 'number') {
+                        window.cafeMap.addMarker(
+                            shop.latitude,
+                            shop.longitude,
+                            shop.name || 'Coffee shop',
+                            {
+                                id: shop._id,
+                            }
+                        );
+                    }
+                });
+            }
+
+            resultsList.innerHTML = shopsWithIds.map((shop) => {
                 const name = shop.name || 'Coffee shop';
-                const distance_m = typeof shop.distance_m === 'number' ? shop.distance_m : 0;
-                const distance_km = (distance_m / 1000).toFixed(2);
                 const addressText = shop.address || '';
-
-                let sentimentLabel = '';
-                if (typeof shop.sentiment === 'number') {
-                    if (shop.sentiment > 0.25) sentimentLabel = '😊 Positive vibe';
-                    else if (shop.sentiment < -0.25) sentimentLabel = '☹️ Mixed reviews';
-                    else sentimentLabel = '😐 Neutral';
-                }
-
-                const rating = typeof shop.rating === 'number' ? `${shop.rating.toFixed(1)}★` : 'N/A';
+                const openingStatus = openingStatusFromShop(shop);
+                const icons = iconLineFromShop(shop);
+                const distance_m = typeof shop.distance_m === 'number' ? shop.distance_m : null;
+                const distanceText = distance_m != null
+                    ? `${(distance_m / 1000).toFixed(2)} km away`
+                    : '';
 
                 return `
-                    <li class="recommendation-item">
-                        <div><strong>${name}</strong></div>
-                        <div>Rating: ${rating}</div>
-                        <div>Distance: ${distance_km} km</div>
+                    <li class="recommendation-item coffee-shop-item" data-shop-id="${shop._id}">
+                        <div class="coffee-shop-item-header">
+                            <strong>${name}</strong>
+                            <span class="coffee-shop-amenities">${icons}</span>
+                        </div>
+                        <div class="coffee-shop-status">${openingStatus}${distanceText ? ` • ${distanceText}` : ''}</div>
                         ${addressText ? `<div>${addressText}</div>` : ''}
-                        ${sentimentLabel ? `<div>${sentimentLabel}</div>` : ''}
                     </li>
                 `;
             }).join('');
+
+            // Wire up click -> highlight marker.
+            if (mapInitialized && window.cafeMap && typeof window.cafeMap.highlightMarker === 'function') {
+                const items = resultsList.querySelectorAll('.coffee-shop-item');
+                items.forEach((item) => {
+                    item.addEventListener('click', () => {
+                        const id = item.getAttribute('data-shop-id');
+                        if (!id) return;
+
+                        // Visually mark active item.
+                        resultsList
+                            .querySelectorAll('.coffee-shop-item--active')
+                            .forEach((el) => el.classList.remove('coffee-shop-item--active'));
+                        item.classList.add('coffee-shop-item--active');
+
+                        window.cafeMap.highlightMarker(id);
+                    });
+                });
+            }
 
             window.scrollTo(0, 0);
         } catch (error) {
             console.error('Error finding coffee shops:', error);
             resultsList.innerHTML = '<li class="recommendation-item">Error finding coffee shops. Please try again later.</li>';
-            alert('Error finding coffee shops. Please check your network or try again.');
         }
     }
 
