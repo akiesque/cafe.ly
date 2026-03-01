@@ -959,7 +959,7 @@ body {
 .start-btn {
   position: relative;
   cursor: pointer;
-  border: 3px solid #b48f6d;
+  border: 4px solid #D8A372;
   border-radius: 2rem;
   background-color: #f8f3e9;
   padding: 1rem 2.5rem;
@@ -986,20 +986,22 @@ body {
   max-width: 120px;
   max-height: 120px;
   border-radius: 2rem;
-  border: 2px dotted #c8a585;
+  border: 4px dotted #c8a585;
   pointer-events: none;
 }
 
 .start-btn:hover {
-  background-color: #efe8dc;
-  border-color: #a67c52;
+  border: 4px solid #D8A372;
+  background: #D8A373;
+  color: #FFF4E4;
   transform: translateY(-2px);
   box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1),
               0 4px 6px -4px rgb(0 0 0 / 0.1);
 }
 
 .start-btn:hover::before {
-  border-color: #b48f6d;
+  border: 4px dotted #FFF4E4;
+  background: rgba(180, 146, 115, 0.58);
 }
 
 /* Coffee finder UI (map + list) */
@@ -1127,7 +1129,7 @@ body {
   justify-content: center;
   min-height: 2.75rem;
   cursor: pointer;
-  border: 3px solid #b48f6d;
+  border: 4px solid #D8A372;
   border-radius: 2rem;
   background-color: #f8f3e9;
   padding: 1rem 2.5rem;
@@ -1152,24 +1154,26 @@ body {
   transform: translate(-50%, -50%);
   width: 75%;
   height: 75%;
-  max-width: 120px;
-  max-height: 120px;
+  max-width: 250px;
+  max-height: 250px;
   border-radius: 2rem;
-  border: 2px dotted #c8a585;
+  border: 4px dotted #c8a585;
   pointer-events: none;
 }
 
 .option-btn:hover {
   --tw-translate-y: -0.25rem;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-  background-color: #efe8dc;
-  border-color: #a67c52;
+  border: 4px solid #D8A372;
+  background: #D8A373;
+  color: #FFF4E4;
   box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1),
               0 4px 6px -4px rgb(0 0 0 / 0.1);
 }
 
 .option-btn:hover::before {
-  border-color: #b48f6d;
+  border: 4px dotted #FFF4E4;
+  background: rgba(180, 146, 115, 0.58);
 }
 
 .option-btn:active {
@@ -1260,7 +1264,7 @@ body {
   margin-top: 1.5rem;
   width: 100%;
   cursor: pointer;
-  border: 3px solid #b48f6d;
+  border: 4px solid #D8A372;
   border-radius: 2rem;
   background-color: #f8f3e9;
   padding: 1rem 2.5rem;
@@ -1287,21 +1291,23 @@ body {
   max-width: 120px;
   max-height: 120px;
   border-radius: 2rem;
-  border: 2px dotted #c8a585;
+  border: 4px dotted #c8a585;
   pointer-events: none;
 }
 
 .back-btn:hover {
   --tw-translate-y: -0.125rem;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-  background-color: #efe8dc;
-  border-color: #a67c52;
+  border: 4px solid #D8A372;
+  background: #D8A373;
+  color: #FFF4E4;
   box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1),
               0 4px 6px -4px rgb(0 0 0 / 0.1);
 }
 
 .back-btn:hover::before {
-  border-color: #b48f6d;
+  border: 4px dotted #FFF4E4;
+  background: rgba(180, 146, 115, 0.58);
 }
 
 .back-btn:active {
