@@ -89,7 +89,10 @@ function showQuestion() {
     question.options.forEach(option => {
         const button = document.createElement('button');
         button.className = 'option-btn';
-        button.textContent = option;
+        const label = document.createElement('span');
+        label.className = 'btn-label';
+        label.textContent = option;
+        button.appendChild(label);
         button.addEventListener('click', () => selectOption(question.key, option));
         questionOptions.appendChild(button);
     });
