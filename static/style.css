@@ -1128,9 +1128,9 @@ body {
   min-height: 2.75rem;
   cursor: pointer;
   border: 3px solid #b48f6d;
-  border-radius: 1.25rem;
+  border-radius: 2rem;
   background-color: #f8f3e9;
-  padding: 1rem 1.5rem;
+  padding: 1rem 2.5rem;
   text-align: center;
   font-size: 1rem;
   line-height: 1.5rem;
@@ -1150,11 +1150,11 @@ body {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  width: 60%;
-  height: 60%;
+  width: 75%;
+  height: 75%;
   max-width: 120px;
   max-height: 120px;
-  border-radius: 50%;
+  border-radius: 2rem;
   border: 2px dotted #c8a585;
   pointer-events: none;
 }
@@ -1261,9 +1261,9 @@ body {
   width: 100%;
   cursor: pointer;
   border: 3px solid #b48f6d;
-  border-radius: 1.25rem;
+  border-radius: 2rem;
   background-color: #f8f3e9;
-  padding: 1rem 1.5rem;
+  padding: 1rem 2.5rem;
   font-size: 1.125rem;
   line-height: 1.75rem;
   font-weight: 700;
@@ -1282,11 +1282,11 @@ body {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  width: 60%;
-  height: 60%;
+  width: 75%;
+  height: 75%;
   max-width: 120px;
   max-height: 120px;
-  border-radius: 50%;
+  border-radius: 2rem;
   border: 2px dotted #c8a585;
   pointer-events: none;
 }
