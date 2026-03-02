@@ -13,7 +13,7 @@ let preferences = {
 const questions = [
     {
         key: 'name',
-        title: 'What can we do for you today?',
+        title: 'What can we\ndo for you today?',
         options: ['Recommend a drink', 'Find a coffee shop']
     },
     {
@@ -76,7 +76,8 @@ function showQuestion() {
     const optionsScrollWrap = document.getElementById('options-scroll-wrap');
     const navArrows = document.getElementById('nav-arrows');
     
-    questionTitle.textContent = question.title;
+    // Allow explicit line breaks in question titles using "\n"
+    questionTitle.innerHTML = question.title.replace(/\n/g, '<br>');
     
     // Clear previous options
     questionOptions.innerHTML = '';
@@ -84,8 +85,31 @@ function showQuestion() {
     questionOptions.classList.remove('two-choices');
     navArrows.classList.remove('nav-arrows-visible');
     if (optionsScrollWrap) optionsScrollWrap.scrollLeft = 0;
+
+    // Special layout for first question: image cards left/right (image-only buttons)
+    if (question.key === 'name') {
+        question.options.forEach(option => {
+            const button = document.createElement('button');
+            button.className = 'option-card';
+
+            const img = document.createElement('img');
+            img.src = 'assets/button/coffee_option1.png';
+            img.alt = option;
+            img.className = 'option-card-img';
+
+            button.appendChild(img);
+            button.addEventListener('click', () => selectOption(question.key, option));
+            questionOptions.appendChild(button);
+        });
+
+        // Exactly two choices – left/right with centered question text
+        questionOptions.classList.add('two-choices');
+        navArrows.setAttribute('aria-hidden', 'true');
+        updateProgress();
+        return;
+    }
     
-    // Create buttons for each option
+    // Default: pill-style option buttons
     question.options.forEach(option => {
         const button = document.createElement('button');
         button.className = 'option-btn';
