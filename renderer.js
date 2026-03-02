@@ -75,9 +75,26 @@ function showQuestion() {
     const questionOptions = document.getElementById('question-options');
     const optionsScrollWrap = document.getElementById('options-scroll-wrap');
     const navArrows = document.getElementById('nav-arrows');
+    const questionContainer = document.querySelector('.question-container');
+    const progressContainer = document.querySelector('.progress-container');
+    const progressText = document.getElementById('progress-text');
     
     // Allow explicit line breaks in question titles using "\n"
     questionTitle.innerHTML = question.title.replace(/\n/g, '<br>');
+
+    // Default layout resets (non-question-1 state)
+    if (questionContainer) {
+        questionContainer.classList.remove('question-container--three-column');
+    }
+    if (questionOptions) {
+        questionOptions.classList.remove('question1-layout');
+    }
+    if (progressContainer) {
+        progressContainer.style.display = '';
+    }
+    if (questionTitle) {
+        questionTitle.style.display = '';
+    }
     
     // Clear previous options
     questionOptions.innerHTML = '';
@@ -86,24 +103,64 @@ function showQuestion() {
     navArrows.classList.remove('nav-arrows-visible');
     if (optionsScrollWrap) optionsScrollWrap.scrollLeft = 0;
 
-    // Special layout for first question: image cards left/right (image-only buttons)
+    // Special layout for first question: image cards left/right with center column question
     if (question.key === 'name') {
-        question.options.forEach(option => {
-            const button = document.createElement('button');
-            button.className = 'option-card';
+        if (questionContainer) {
+            questionContainer.classList.add('question-container--three-column');
+        }
+        if (questionOptions) {
+            // Use a dedicated grid on the options container for Q1
+            questionOptions.classList.add('two-choices', 'question1-layout');
+            questionOptions.innerHTML = '';
+        }
+        // Hide the original question title and progress block (we'll clone into the center column)
+        if (progressContainer) {
+            progressContainer.style.display = 'none';
+        }
+        if (questionTitle) {
+            questionTitle.style.display = 'none';
+        }
 
-            const img = document.createElement('img');
-            img.src = 'assets/button/coffee_option1.png';
-            img.alt = option;
-            img.className = 'option-card-img';
+        if (questionOptions) {
+            const [leftOption, rightOption] = question.options;
 
-            button.appendChild(img);
-            button.addEventListener('click', () => selectOption(question.key, option));
-            questionOptions.appendChild(button);
-        });
+            const makeCard = (option) => {
+                const button = document.createElement('button');
+                button.className = 'option-card';
 
-        // Exactly two choices – left/right with centered question text
-        questionOptions.classList.add('two-choices');
+                const img = document.createElement('img');
+                img.src = 'assets/button/coffee_option1.png';
+                img.alt = option;
+                img.className = 'option-card-img';
+
+                button.appendChild(img);
+                button.addEventListener('click', () => selectOption(question.key, option));
+                return button;
+            };
+
+            const leftCard = makeCard(leftOption);
+
+            const center = document.createElement('div');
+            center.className = 'question1-center';
+            // Clone progress and title content into the center column
+            const centerProgress = document.createElement('p');
+            centerProgress.className = 'progress-text';
+            centerProgress.textContent = progressText ? progressText.textContent : `Question ${currentStep + 1} of ${questions.length}`;
+
+            const centerTitle = document.createElement('h2');
+            centerTitle.className = 'question-title';
+            centerTitle.innerHTML = question.title.replace(/\n/g, '<br>');
+
+            center.appendChild(centerProgress);
+            center.appendChild(centerTitle);
+
+            const rightCard = makeCard(rightOption);
+
+            questionOptions.appendChild(leftCard);
+            questionOptions.appendChild(center);
+            questionOptions.appendChild(rightCard);
+        }
+
         navArrows.setAttribute('aria-hidden', 'true');
         updateProgress();
         return;
