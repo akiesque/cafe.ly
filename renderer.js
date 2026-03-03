@@ -124,12 +124,12 @@ function showQuestion() {
         if (questionOptions) {
             const [leftOption, rightOption] = question.options;
 
-            const makeCard = (option) => {
+            const makeCard = (option, imagePath) => {
                 const button = document.createElement('button');
                 button.className = 'option-card';
 
                 const img = document.createElement('img');
-                img.src = 'assets/button/coffee_option1.png';
+                img.src = imagePath;
                 img.alt = option;
                 img.className = 'option-card-img';
 
@@ -138,7 +138,7 @@ function showQuestion() {
                 return button;
             };
 
-            const leftCard = makeCard(leftOption);
+            const leftCard = makeCard(leftOption, 'assets/button/coffee_option1.png');
 
             const center = document.createElement('div');
             center.className = 'question1-center';
@@ -154,7 +154,7 @@ function showQuestion() {
             center.appendChild(centerProgress);
             center.appendChild(centerTitle);
 
-            const rightCard = makeCard(rightOption);
+            const rightCard = makeCard(rightOption, 'assets/button/coffee_option2.png');
 
             questionOptions.appendChild(leftCard);
             questionOptions.appendChild(center);
