@@ -16,16 +16,6 @@
     >
 </head>
 <body class="main-page balsamiq-sans-regular">
-    <!-- SVG filter for wavy/squiggly button border -->
-    <svg xmlns="http://www.w3.org/2000/svg" style="position: absolute; width: 0; height: 0;">
-        <defs>
-            <filter id="btn-wavy" x="-20%" y="-20%" width="140%" height="140%">
-                <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" result="noise" />
-                <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.0" xChannelSelector="R" yChannelSelector="G" />
-            </filter>
-        </defs>
-    </svg>
-
     <div class="main-page-bg" aria-hidden="true">
         <img class="main-page-bg-img" src="assets/bg.png" alt="">
         <div class="main-page-bg-overlay"></div>
@@ -46,14 +36,12 @@
             <div class="app-container">
 
                 <div id="coffee-finder-ui" class="coffee-finder-ui" style="display: none;">
-                    <h3 class="question-title">Find a Coffee Shop</h3>
-
                     <div class="coffee-finder-controls">
                         <input
                             id="coffee-finder-address"
                             type="text"
                             class="coffee-finder-input"
-                            placeholder="Enter your address or area" />
+                            placeholder="Enter your address or area to search for coffee shops..." />
                         <button id="coffee-finder-search-btn" class="option-btn"><span class="btn-label">Find Coffee Shops</span></button>
                     </div>
 
@@ -61,7 +49,7 @@
                         <div class="coffee-finder-map">
                             <div
                                 id="coffee-finder-map"
-                                style="border:0; width:100%; height:100%;"
+                                style="border:0; width:100%; height:70%;"
                                 aria-label="Coffee shops map">
                             </div>
                         </div>
