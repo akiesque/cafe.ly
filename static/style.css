@@ -172,6 +172,7 @@ button,
 .option-card,
 .start-btn,
 .back-btn,
+.recommendation-item.coffee-shop-item,
 .coffee-finder-search-btn {
   cursor: url("../assets/cursor/custom cursor click.png") 0 0, pointer !important;
 }
@@ -842,16 +843,13 @@ body {
   display: none;
 }
 
-.options-grid.has-many-choices {
+/* Three choices */
+
+.options-grid.has-three-choices {
   display: flex;
   flex-wrap: nowrap;
   gap: 1rem;
-  margin-top: 1.5rem;
-}
-
-.options-grid.has-many-choices .option-btn {
-  flex-shrink: 0;
-  min-width: 140px;
+  justify-content: center;
 }
 
 /* Exactly two choices – left/right buttons within the question area */
@@ -862,6 +860,7 @@ body {
   align-items: flex-start;
   gap: 1.5rem;
   margin-top: 0.5rem;
+  justify-content: center;
 }
 
 .options-grid.two-choices .option-btn,
@@ -869,6 +868,14 @@ body {
   flex-shrink: 0;
   min-width: 160px;
   max-width: 220px;
+}
+
+/* Question 2 special layout: exactly 4 options, centered with no nav arrows */
+.options-grid.four-choices-center {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
 }
 
 /* Question 1 special grid layout: [left card] [center text] [right card] */
@@ -1290,14 +1297,27 @@ body {
 .options-grid {
   margin-top: 0.75rem;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: 2fr 1fr 2fr;
   gap: 1rem;
 }
 
 @media (min-width: 768px) {
   .options-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: 2fr 1fr 2fr;
   }
+}
+
+/* Many choices – horizontal scroll row (used e.g. by Question 4) */
+.options-scroll-wrap .options-grid.has-many-choices {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 1rem;
+  justify-content: flex-start;
+}
+
+.options-scroll-wrap .options-grid.has-many-choices .option-btn {
+  flex-shrink: 0;
+  min-width: 140px;
 }
 
 .option-btn {

@@ -99,6 +99,7 @@ function showQuestion() {
     // Clear previous options
     questionOptions.innerHTML = '';
     questionOptions.classList.remove('has-many-choices');
+    questionOptions.classList.remove('has-three-choices');
     questionOptions.classList.remove('two-choices');
     navArrows.classList.remove('nav-arrows-visible');
     if (optionsScrollWrap) optionsScrollWrap.scrollLeft = 0;
@@ -181,8 +182,15 @@ function showQuestion() {
     // Layout tweaks based on number of choices
     const optionCount = question.options.length;
 
+    // Special case: question 2 (caffeine) with exactly 4 options
+    const isCenteredFourChoice = question.key === 'caffeine' && optionCount === 4;
+
     // Show arrow buttons and horizontal scroll when 4+ choices; hide scrollbar
-    if (optionCount >= 4) {
+    if (optionCount === 3) {
+        questionOptions.classList.add('has-three-choices');
+    }
+
+    if (optionCount >= 4 && !isCenteredFourChoice) {
         questionOptions.classList.add('has-many-choices');
         navArrows.classList.add('nav-arrows-visible');
         navArrows.setAttribute('aria-hidden', 'false');
@@ -193,6 +201,11 @@ function showQuestion() {
     // When there are exactly 2 choices, center the buttons
     if (optionCount === 2) {
         questionOptions.classList.add('two-choices');
+    }
+
+    // When question 2 has exactly 4 options, center them and hide nav arrows
+    if (isCenteredFourChoice) {
+        questionOptions.classList.add('four-choices-center');
     }
     
     updateProgress();
