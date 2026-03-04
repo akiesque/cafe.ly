@@ -392,6 +392,7 @@ async function startCoffeeShopFlow() {
                 const name = shop.name || 'Coffee shop';
                 const addressText = shop.address || '';
                 const openingStatus = openingStatusFromShop(shop);
+                const assumed = shop.opening_hours && shop.opening_hours.assumed;
                 const icons = iconLineFromShop(shop);
                 const distance_m = typeof shop.distance_m === 'number' ? shop.distance_m : null;
                 const distanceText = distance_m != null
@@ -404,8 +405,10 @@ async function startCoffeeShopFlow() {
                             <strong>${name}</strong>
                             <span class="coffee-shop-amenities">${icons}</span>
                         </div>
-                        <div class="coffee-shop-status">${openingStatus}${distanceText ? ` • ${distanceText}` : ''}</div>
-                        ${addressText ? `<div>${addressText}</div>` : ''}
+                        <div class="coffee-shop-status">
+                                ${openingStatus}
+                                ${distanceText ? ` • ${distanceText}` : ''}
+                            </div>
                     </li>
                 `;
             }).join('');

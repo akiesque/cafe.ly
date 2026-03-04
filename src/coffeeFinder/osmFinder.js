@@ -87,20 +87,32 @@ function buildAddressFromTags(tags) {
 
 // (2) Opening hours parsing using `opening_hours` npm package.
 function parseOpeningHours(raw) {
-  if (!raw || typeof raw !== "string") {
+  const now = new Date();
+
+  // Fallback assumption window: 10:00–19:00 local system time
+  const assumedOpenStart = 10;
+  const assumedOpenEnd = 19;
+  const currentHour = now.getHours();
+
+  const assumeOpen = currentHour >= assumedOpenStart && currentHour < assumedOpenEnd;
+
+  // If missing or empty → use fallback assumption
+  if (!raw || typeof raw !== "string" || raw.trim() === "") {
     return {
       raw: null,
-      is_open_now: null,
-      status: "No data",
+      is_open_now: assumeOpen,
+      status: assumeOpen ? "Open" : "Closed",
       next_change: null,
-      error: null,
+      error: "No opening_hours tag",
+      assumed: true, // <-- add this field so frontend can show tooltip
     };
   }
 
+  // Try real parsing
   try {
     const oh = new OpeningHours(raw);
-    const now = new Date();
     const isOpen = oh.getState(now);
+
     let nextChange = null;
     try {
       nextChange = oh.getNextChange(now);
@@ -114,55 +126,63 @@ function parseOpeningHours(raw) {
       status: isOpen ? "Open now" : "Closed",
       next_change: nextChange ? nextChange.toISOString() : null,
       error: null,
+      assumed: false,
     };
   } catch (err) {
+    // If parsing fails → still fallback to assumption
     return {
       raw,
-      is_open_now: null,
-      status: "No data",
+      is_open_now: assumeOpen,
+      status: assumeOpen ? "Open (assumed)" : "Closed (assumed)",
       next_change: null,
-      error: err && err.message ? err.message : String(err),
+      error: err?.message || String(err),
+      assumed: true,
     };
   }
 }
 
+
 // (3) Map OSM amenity / feature tags to emoji icons.
+function iconWithTooltip(icon, tip) {
+  return `<span class="amenity tooltip" data-tip="${tip}">${icon}</span>`;
+}
+
 function mapAmenitiesToIcons(tags = {}) {
   const icons = [];
 
   // Always show a coffee icon for cafes.
-  icons.push("☕");
+  icons.push(iconWithTooltip("☕", "Coffee shop"));
 
   const wifi = String(tags.wifi || tags.internet_access || "").toLowerCase();
   if (wifi === "yes" || wifi === "wlan" || wifi === "customers") {
-    icons.push("📶");
+    icons.push(iconWithTooltip("📶", "Free WiFi"));
   }
 
   if (String(tags.wheelchair).toLowerCase() === "yes") {
-    icons.push("♿");
+    icons.push(iconWithTooltip("♿", "Wheelchair accessible"));
   }
 
   if (String(tags.outdoor_seating).toLowerCase() === "yes") {
-    icons.push("🌳");
+    icons.push(iconWithTooltip("🌳", "Outdoor seating"));
   }
 
   if (String(tags.takeaway).toLowerCase() === "yes") {
-    icons.push("🥡");
+    icons.push(iconWithTooltip("🥡", "Takeaway available"));
   }
 
   if (String(tags.drive_through).toLowerCase() === "yes") {
-    icons.push("🚗");
+    icons.push(iconWithTooltip("🚗", "Drive-through available"));
   }
 
   const cards = String(tags["payment:cards"] || "").toLowerCase();
   if (cards === "yes") {
-    icons.push("💳");
+    icons.push(iconWithTooltip("💳", "Credit cards accepted"));
   }
 
-  const cuisine = String(tags.cuisine || "").toLowerCase();
-  if (cuisine.includes("coffee")) {
-    icons.push("☕");
-  }
+  // const cuisine = String(tags.cuisine || "").toLowerCase();
+  // if (cuisine.includes("coffee")) {
+  //   icons.push("☕");
+  // }
 
   const smoking = String(
     tags.smoking || tags["smoking:outside"] || ""
@@ -190,7 +210,12 @@ function normalizeShopElement(el, userLat, userLon) {
   }
 
   const openingHoursObj = parseOpeningHours(tags.opening_hours);
-  const amenity_icons = mapAmenitiesToIcons(tags);
+  let amenity_icons = mapAmenitiesToIcons(tags);
+
+  // Add “assumed hours” icon
+  if (openingHoursObj.assumed) {
+    amenity_icons.push(iconWithTooltip("❓", "Assumed opening hours"));
+  }
 
   return {
     id: el.id,
