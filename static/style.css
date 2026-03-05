@@ -185,7 +185,7 @@ img {
 
 /* Custom cursors */
 body,
-.leaflet-popup-content-wrapper{
+.leaflet-popup-content-wrapper {
   cursor: url("../assets/cursor/custom cursor.png") 0 0, auto !important;
 }
 
@@ -1524,7 +1524,7 @@ body {
 .results-title {
   margin-bottom: 2rem;
   font-size: image.pngrem;
-  line-height: 2.25rem;
+  line-height: 1.25rem;
   --tw-text-opacity: 1;
   color: rgb(107 66 38 / var(--tw-text-opacity, 1));
 }
@@ -1536,7 +1536,7 @@ body {
   padding: 0px;
 }
 
-.recommendation-item {
+/* .recommendation-item {
   margin-bottom: 0.75rem;
   border-radius: 0.75rem;
   border-left-width: 4px;
@@ -1553,6 +1553,17 @@ body {
   transition-property: all;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 200ms;
+} */
+
+.recommendation-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.drink-icon {
+  width: 30%;
+  object-fit: contain;
 }
 
 .recommendation-item:hover {

@@ -211,6 +211,19 @@ function showQuestion() {
     updateProgress();
 }
 
+function attachDrinkImages() {
+    document.querySelectorAll(".recommendation-item").forEach(item => {
+      const drink = item.textContent.trim().replace(/\s/g, "");
+      
+      const img = document.createElement("img");
+      img.src = `assets/drinks/${drink}.gif`;
+      img.className = "drink-icon";
+  
+      item.prepend(img);
+    });
+  }
+  
+
 // Handle option selection
 function selectOption(key, value) {
     // Special case: user wants to find a coffee shop instead of a drink recommendation
@@ -236,6 +249,7 @@ function selectOption(key, value) {
     } else {
         // All questions answered, show results
         showResults();
+        attachDrinkImages();
     }
 }
 
