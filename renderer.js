@@ -213,15 +213,15 @@ function showQuestion() {
 
 function attachDrinkImages() {
     document.querySelectorAll(".recommendation-item").forEach(item => {
-      const drink = item.textContent.trim().replace(/\s/g, "");
-      
+      const drink = item.dataset.drink.replace(/\s/g, "");
+  
       const img = document.createElement("img");
       img.src = `assets/drinks/${drink}.gif`;
       img.className = "drink-icon";
   
-      item.prepend(img);
+      item.appendChild(img);
     });
-  }
+  }  
   
 
 // Handle option selection
@@ -265,7 +265,7 @@ function showResults() {
     // Display results
     if (recommendations.length > 0) {
         recommendationsList.innerHTML = recommendations
-            .map(drink => `<li class="recommendation-item">${drink}</li>`)
+         .map(drink => `<li class="recommendation-item" data-drink="${drink}"></li>`)
             .join('');
     } else {
         recommendationsList.innerHTML = '<li class="recommendation-item">No drinks match your preferences. Try adjusting your selections!</li>';
