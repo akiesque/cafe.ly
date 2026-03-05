@@ -184,20 +184,21 @@ img {
 }
 
 /* Custom cursors */
-body{
+body,
+.leaflet-popup-content-wrapper{
   cursor: url("../assets/cursor/custom cursor.png") 0 0, auto !important;
 }
 
-:root {
+/* :root {
   --cursor-url: url("../assets/cursor/custom cursor.png") 0 0, auto !important;
-}
+} */
 
-::-webkit-scrollbar,
+/* ::-webkit-scrollbar,
 ::-webkit-scrollbar-thumb,
 ::-webkit-scrollbar-track,
 ::-webkit-scrollbar-button {
-  cursor: var(--cursor-url) !important;
-}
+  cursor: url("../assets/cursor/custom cursor.png") 0 0, auto !important;
+} */
 
 button,
 [role="button"],
@@ -211,7 +212,8 @@ button,
   cursor: url("../assets/cursor/custom cursor click.png") 16 16, pointer !important;
 }
 
-.coffee-finder-input {
+.coffee-finder-input,
+.leaflet-popup-content {
   cursor: url("../assets/cursor/custom cursor text.png") 16 16, text !important;
 }
 
@@ -224,6 +226,7 @@ button,
 .leaflet-dragging .leaflet-container {
   cursor: url('../assets/cursor/custom cursor grabbing.png') 16 16, grabbing !important;
 }
+
 /*
 1. Add the correct height in Firefox.
 2. Correct the inheritance of border color in Firefox. (https://bugzilla.mozilla.org/show_bug.cgi?id=190655)
