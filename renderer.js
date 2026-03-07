@@ -47,6 +47,10 @@ const questions = [
 async function loadDrinks() {
     try {
         const response = await fetch('drinks.json');
+        if (!response.ok) {
+            const text = await response.text().catch(() => '');
+            throw new Error(`drinks.json failed: ${response.status} ${response.statusText}${text ? ` — ${text.slice(0, 80)}` : ''}`);
+        }
         drinks = await response.json();
     } catch (error) {
         console.error('Error loading drinks:', error);
@@ -458,6 +462,7 @@ async function startCoffeeShopFlow() {
         searchBtn.addEventListener('click', runSearch);
         searchBtn._coffeeFinderBound = true;
     }
+
 }
 
 // Categorize caffeine based on mg value

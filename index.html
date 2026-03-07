@@ -17,46 +17,43 @@
 </head>
 <body class="main-page balsamiq-sans-regular">
     <div class="main-page-bg" aria-hidden="true">
-        <img class="main-page-bg-img" src="assets/bg.png" alt="">
+        <img class="main-page-bg-img" src="assets/interface/bg.png" alt="">
         <div class="main-page-bg-overlay"></div>
     </div>
 
     <div class="logo-sign">
-        <img src="assets/logocafelys.png" alt="Café.ly logo">
+        <img src="assets/interface/logocafelys.png" alt="Café.ly logo">
     </div>
 
     <div class="main-interface">
         <div class="card card-outline"></div>
         <div class="card card-outer"></div>
         <div class="card card-outer card-border"></div>
-        <div class="card card-dashed"><img src="assets/card-dashed.png" alt=""></div>
+        <div class="card card-dashed"><img src="assets/interface/card-dashed.png" alt=""></div>
         <div class="card card-inner">
-            <img src="assets/card_bg.png" alt="" class="card-inner-bg card-inner-bg-quiz">
-            <img src="assets/main_interface_coffeeshop.png" alt="" class="card-inner-bg card-inner-bg-coffee">
+            <img src="assets/interface/card_bg.png" alt="" class="card-inner-bg card-inner-bg-quiz">
+            <img src="assets/interface/main_interface_coffeeshop.png" alt="" class="card-inner-bg card-inner-bg-coffee">
             <div class="app-container">
 
-                <div id="coffee-finder-ui" class="coffee-finder-ui" style="display: none;">
-                    <div id="global-tooltip"></div>
-                    <div class="coffee-finder-controls">
+                <div id="coffee-finder-ui" class="coffee-ui" style="display: none;">
+                    <div class="coffee-ui-controls">
                         <input
                             id="coffee-finder-address"
                             type="text"
-                            class="coffee-finder-input"
+                            class="coffee-ui-input"
                             placeholder="Enter your address or area to search for coffee shops..." />
-                        <button id="coffee-finder-search-btn" class="coffee-finder-search-btn" aria-label="Find Coffee Shops">
-                            <img src="../cafe.ly/assets/search.png" alt="" class="coffee-finder-search-icon">
+                        <button id="coffee-finder-search-btn" class="coffee-ui-search-btn" aria-label="Find Coffee Shops">
+                            <img src="assets/button/search.png" alt="" class="coffee-ui-search-icon">
                         </button>
                     </div>
 
-                    <div class="coffee-finder-layout">
-                        <div class="coffee-finder-map">
-                            <div
-                                id="coffee-finder-map"
-                                style="border:0; width:100%; height:100%;"
-                                aria-label="Coffee shops map">
-                            </div>
+                    <div class="coffee-two-col">
+                        <div class="coffee-col-map">
+                            <div id="coffee-finder-map" aria-label="Coffee shops map"></div>
                         </div>
-                        <ul id="coffee-finder-results" class="recommendations-list"></ul>
+                        <div id="coffee-finder-results-scroll" class="coffee-col-list" aria-label="Coffee shop results">
+                            <ul id="coffee-finder-results" class="coffee-list"></ul>
+                        </div>
                     </div>
                 </div>
 
@@ -90,10 +87,10 @@
 
     <div class="nav-arrows" id="nav-arrows" aria-hidden="true">
         <button type="button" class="nav-arrow nav-arrow-left" id="nav-arrow-left" aria-label="Scroll choices left">
-            <img src="assets/arrow-left.png" alt="" width="91" height="91">
+            <img src="assets/button/arrow-left.png" alt="" width="91" height="91">
         </button>
         <button type="button" class="nav-arrow nav-arrow-right" id="nav-arrow-right" aria-label="Scroll choices right">
-            <img src="assets/arrow-right.png" alt="" width="91" height="91">
+            <img src="assets/button/arrow-right.png" alt="" width="91" height="91">
         </button>
     </div>
 
