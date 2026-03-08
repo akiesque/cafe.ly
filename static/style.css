@@ -760,8 +760,7 @@ body {
   box-sizing: border-box;
 }
 
-/* Visible light outline underneath (for Electron where white outline doesn’t show) */
-
+/* COMMENTED: previous assets – testing outer.png / inner.png only
 .main-interface .card-outline {
   width: 829px;
   height: 590px;
@@ -772,89 +771,78 @@ body {
   border-radius: 60px;
   transition: opacity 250ms cubic-bezier(0.4, 0, 0.2, 1);
 }
+*/
 
-.main-interface .card-outer {
+/* Main card: nine-slice panel using outer-bg assets */
+.main-interface .nine-slice-panel.nine-slice-panel--outer-bg {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  transform: translateX(-50%);
   width: 821px;
   height: 582px;
-  left: 0;
-  top: 0;
-  transition: opacity 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: visible;
+  box-sizing: border-box;
+  box-shadow: 0 0 0 5px #f4e9df;
+  border-radius: 30px;
 }
 
-.main-interface .card-shadow {
-  background-color: #efc9a6;
-  border: 4px solid #f4e9df;
-  box-shadow: 0 5px 13.4px 0 rgba(180, 146, 115, 0.58);
-}
-
-.main-interface .card-border {
-  background-color: #efc9a6;
-  border: 5px solid #a95f19;
-  transition: opacity 250ms cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* Hide quiz outer border in coffee finder mode */
-
-.coffee-mode .main-interface .card-outline,
-.coffee-mode .main-interface .card-outer,
-.coffee-mode .main-interface .card-border {
-  opacity: 0;
-  pointer-events: none;
-}
-
-.main-interface .card-dashed {
-  width: 761px;
-  height: 411px;
-  left: 50%;
-  top: 137px;
-  transform: translateX(-50%);
-  border-radius: 56px;
-  background: transparent;
-  overflow: hidden;
-  opacity: 1;
-  transition: opacity 250ms cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* Hide dashed quiz frame in coffee finder mode (fade out) */
-
-.coffee-mode .main-interface .card-dashed {
-  opacity: 0;
-  pointer-events: none;
-}
-
-.main-interface .card-dashed img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  -o-object-fit: fill;
-  object-fit: fill;
-  display: block;
-}
-
-.main-interface .card-inner {
-  width: 737px;
-  height: 387px;
-  left: 50%;
-  top: 147px;
-  transform: translateX(-50%);
-  background-color: transparent;
-  border: none;
-  padding: 1.5rem;
-  overflow: auto;
-  position: relative;
-}
-
-/* Enlarged card size specifically for coffee finder mode */
-
-.main-interface .card-inner.card-inner--coffee {
+.main-interface .nine-slice-panel.nine-slice-panel--outer-bg.nine-slice-panel--coffee {
   width: 913px;
   height: 670px;
   top: 1px;
 }
 
-/* Inner card background images (quiz + coffee-finder) */
+.main-interface .nine-slice-panel--outer-bg .nine-slice-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
 
+/* Inner card: nine-slice panel using inner-bg (no border-radius, white border behind) */
+.main-interface .nine-slice-panel--outer-bg .nine-slice-panel--inner-bg.card-inner {
+  width: 737px;
+  height: 387px;
+  left: auto;
+  top: auto;
+  transform: none;
+  flex: 0 0 auto;
+  overflow: visible;
+  box-sizing: border-box;
+}
+
+.main-interface .nine-slice-panel--outer-bg .nine-slice-panel--inner-bg.card-inner.card-inner--coffee {
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+}
+
+/* Left/right slices overlap center to hide seams; keep them on top */
+.main-interface .nine-slice-panel--outer-bg .nine-slice-panel--inner-bg.card-inner > .nine-slice-left,
+.main-interface .nine-slice-panel--outer-bg .nine-slice-panel--inner-bg.card-inner > .nine-slice-right {
+  z-index: 1;
+}
+
+.main-interface .nine-slice-panel--inner-bg .nine-slice-center {
+  padding: 1.5rem;
+  overflow: auto;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  min-width: 0;
+  min-height: 0;
+}
+
+.main-interface .nine-slice-panel--inner-bg .nine-slice-center .app-container {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+/* COMMENTED: previous inner BG assets (card_bg.png, main_interface_coffeeshop.png) – testing inner.png only
 .card-inner-bg {
   position: absolute;
   inset: 0;
@@ -879,6 +867,12 @@ body {
 
 .card-inner--coffee .card-inner-bg-quiz {
   opacity: 0;
+}
+*/
+
+/* Hide previous inner BG images while testing outer.png / inner.png */
+.card-inner-bg {
+  display: none !important;
 }
 
 .app-container {
@@ -1057,85 +1051,6 @@ body {
   white-space: normal;
 }
 
-/* Bottom progress bar (Figma progress bar) */
-
-.progress-bar-outer {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  bottom: 28px;
-  width: 820px;
-  height: 54px;
-  pointer-events: none;
-}
-
-.progress-bar-outer .progress-bar-layer {
-  position: absolute;
-  border-radius: 56px;
-  box-sizing: border-box;
-}
-
-/* Visible light outline underneath (for Electron) */
-
-.progress-bar-outline {
-  width: 828px;
-  height: 62px;
-  left: -4px;
-  top: -4px;
-  border: 4px solid #f4e9df;
-  background: transparent;
-  border-radius: 60px;
-}
-
-.progress-bar-shadow {
-  width: 820px;
-  height: 54px;
-  left: 0;
-  top: 0;
-  background-color: #efc9a6;
-  border: 4px solid #f4e9df;
-  box-shadow: 0 5px 13.4px 0 rgba(180, 146, 115, 0.58);
-}
-
-.progress-bar-border {
-  width: 820px;
-  height: 54px;
-  left: 0;
-  top: 0;
-  border: 5px solid #a95f19;
-  background: transparent;
-}
-
-.progress-bar-dashed {
-  width: 802px;
-  height: 36px;
-  left: 50%;
-  top: 9px;
-  transform: translateX(-50%);
-  border: 3px dashed #d8a372;
-  background: transparent;
-}
-
-.progress-bar-track {
-  width: 790px;
-  height: 25px;
-  left: 50%;
-  top: 14px;
-  transform: translateX(-50%);
-  background-color: #ffead6;
-  border-radius: 56px;
-  overflow: hidden;
-  pointer-events: auto;
-}
-
-.progress-bar-fill {
-  height: 100%;
-  width: 0%;
-  border-radius: 56px;
-  background-color: #d8a372;
-  transition: width 300ms cubic-bezier(0.4, 0, 0.2, 1);
-}
-
 /* App Container (inside card) */
 
 .app-title {
@@ -1260,10 +1175,12 @@ body {
   margin-right: auto;
   padding: 2.5rem 2.75rem;
   border-radius: 36px;
-  background-image: url("../assets/coffee_finder_interface.png");
+  /* COMMENTED: previous asset – testing outer/inner.png only
+  background-image: url("../assets/interface/coffee_finder_interface.png");
   background-size: 100% 100%;
   background-repeat: no-repeat;
   background-position: center;
+  */
   box-sizing: border-box;
 }
 
@@ -1301,7 +1218,7 @@ body {
 
 .coffee-finder-search-btn:hover .coffee-finder-search-icon,
 .coffee-finder-search-btn:focus-visible .coffee-finder-search-icon {
-  content: url("../assets/search-hover.png");
+  content: url("../assets/button/search-hover.png");
 }
 
 /* Inner layout row: map + results, inside the framed container */
@@ -1336,20 +1253,9 @@ body {
   gap: 0.75rem;
 }
 
-#coffee-finder-results .recommendation-item {
-  width: 100%;
-  margin-bottom: 0;
-}
-
 #coffee-finder-map {
   width: 100%;
   height: 100%;
-}
-
-/* Hide bottom progress bar while in coffee finder mode */
-
-.coffee-mode .progress-bar-outer {
-  display: none;
 }
 
 .coffee-mode .main-interface .card-inner {
@@ -1523,7 +1429,7 @@ body {
 
 .results-title {
   margin-bottom: 2rem;
-  font-size: image.pngrem;
+  font-size: 1.25rem;
   line-height: 1.25rem;
   --tw-text-opacity: 1;
   color: rgb(107 66 38 / var(--tw-text-opacity, 1));
@@ -1536,24 +1442,21 @@ body {
   padding: 0px;
 }
 
-/* .recommendation-item {
-  margin-bottom: 0.75rem;
-  border-radius: 0.75rem;
-  border-left-width: 4px;
-  --tw-border-opacity: 1;
-  border-color: rgb(107 66 38 / var(--tw-border-opacity, 1));
-  --tw-bg-opacity: 1;
-  background-color: rgb(243 244 246 / var(--tw-bg-opacity, 1));
-  padding: 1.25rem;
-  text-align: left;
-  font-size: 1rem;
-  line-height: 1.5rem;
-  --tw-text-opacity: 1;
-  color: rgb(31 41 55 / var(--tw-text-opacity, 1));
-  transition-property: all;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 200ms;
-} */
+/* Quiz results: line up the three recommendations horizontally */
+#results-section .recommendations-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 1.5rem;
+}
+
+#results-section .recommendation-item {
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: 12rem;
+}
 
 @keyframes slideFadeIn {
   from {
@@ -1566,26 +1469,48 @@ body {
   }
 }
 
-.recommendation-item {
+/* Quiz mode: results section — vertical layout, images only (drink images contain their own text) */
+#results-section .recommendation-item {
   display: flex;
-  flex-direction: row;     
-  align-items: center;   
+  flex-direction: column;
+  align-items: center;
   gap: 1rem;
+  opacity: 0;
+  transform: translateY(-20px);
+  animation: slideFadeIn 0.5s ease forwards;
+  visibility: hidden; /* hide text node, show only .drink-icon below */
+}
+#results-section .recommendation-item .drink-icon {
+  visibility: visible;
+}
+
+/* Coffee mode: finder results — row layout (content left to right, list flows up to down) */
+#coffee-finder-results .recommendation-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  margin-bottom: 0;
   opacity: 0;
   transform: translateY(-20px);
   animation: slideFadeIn 0.5s ease forwards;
 }
 
 .drink-icon {
-  width: 30%;
+  width: 100%;
   object-fit: contain;
 }
 
-.recommendation-item:nth-child(1) { animation-delay: 0.1s; }
-.recommendation-item:nth-child(2) { animation-delay: 0.25s; }
-.recommendation-item:nth-child(3) { animation-delay: 0.4s; }
+#results-section .recommendation-item:nth-child(1),
+#coffee-finder-results .recommendation-item:nth-child(1) { animation-delay: 0.1s; }
+#results-section .recommendation-item:nth-child(2),
+#coffee-finder-results .recommendation-item:nth-child(2) { animation-delay: 0.25s; }
+#results-section .recommendation-item:nth-child(3),
+#coffee-finder-results .recommendation-item:nth-child(3) { animation-delay: 0.4s; }
 
-.recommendation-item:hover {
+#results-section .recommendation-item:hover,
+#coffee-finder-results .recommendation-item:hover {
   --tw-translate-x: 0.25rem;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
   --tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
@@ -1713,3 +1638,145 @@ body {
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
   opacity: 1;
 }
+
+/* ========== Nine-slice panel (9 separate images) ==========
+ * Corners: fixed size. Edges: stretch along one axis. Center: fills remaining space.
+ * Set --nine-slice-size to match your corner/edge asset size (default 24px).
+ * Image path: put top-left.png, top.png, ... in assets/nine-slice/ (or set path below).
+ */
+.nine-slice-panel {
+  --nine-slice-size: 24px;
+  display: grid;
+  grid-template-columns: var(--nine-slice-size) 1fr var(--nine-slice-size);
+  grid-template-rows: var(--nine-slice-size) 1fr var(--nine-slice-size);
+  grid-template-areas:
+    "top-left     top      top-right"
+    "left        center   right"
+    "bottom-left bottom   bottom-right";
+  min-width: 0;
+  min-height: 0;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.nine-slice-panel > * {
+  min-width: 0;
+  min-height: 0;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100% 100%;
+}
+
+.nine-slice-panel .nine-slice-top-left {
+  grid-area: top-left;
+  background-image: url("../assets/nine-slice/top-left.png");
+}
+.nine-slice-panel .nine-slice-top {
+  grid-area: top;
+  background-image: url("../assets/nine-slice/top.png");
+  background-repeat: repeat-x;
+  background-size: auto 100%;
+  background-position: left center;
+}
+.nine-slice-panel .nine-slice-top-right {
+  grid-area: top-right;
+  background-image: url("../assets/nine-slice/top-right.png");
+}
+.nine-slice-panel .nine-slice-left {
+  grid-area: left;
+  background-image: url("../assets/nine-slice/left.png");
+  background-repeat: repeat-y;
+  background-size: 100% auto;
+  background-position: center top;
+}
+.nine-slice-panel .nine-slice-center {
+  grid-area: center;
+  background-image: url("../assets/nine-slice/center.png");
+}
+.nine-slice-panel .nine-slice-right {
+  grid-area: right;
+  background-image: url("../assets/nine-slice/right.png");
+  background-repeat: repeat-y;
+  background-size: 100% auto;
+  background-position: center top;
+}
+.nine-slice-panel .nine-slice-bottom-left {
+  grid-area: bottom-left;
+  background-image: url("../assets/nine-slice/bottom-left.png");
+}
+.nine-slice-panel .nine-slice-bottom {
+  grid-area: bottom;
+  background-image: url("../assets/nine-slice/bottom.png");
+  background-repeat: repeat-x;
+  background-size: auto 100%;
+  background-position: left center;
+}
+.nine-slice-panel .nine-slice-bottom-right {
+  grid-area: bottom-right;
+  background-image: url("../assets/nine-slice/bottom-right.png");
+}
+
+/* Café.ly main card: use outer-bg folder (edges repeat for dash) */
+.nine-slice-panel--outer-bg .nine-slice-top-left { background-image: url("../assets/outer-bg/top-left.png"); }
+.nine-slice-panel--outer-bg .nine-slice-top {
+  background-image: url("../assets/outer-bg/top.png");
+  background-repeat: repeat-x;
+  background-size: auto 100%;
+  background-position: left center;
+}
+.nine-slice-panel--outer-bg .nine-slice-top-right { background-image: url("../assets/outer-bg/top-right.png"); }
+.nine-slice-panel--outer-bg .nine-slice-left {
+  background-image: url("../assets/outer-bg/left.png");
+  background-repeat: repeat-y;
+  background-size: 100% auto;
+  background-position: center top;
+}
+.nine-slice-panel--outer-bg .nine-slice-center { background-image: url("../assets/outer-bg/center.png"); }
+.nine-slice-panel--outer-bg .nine-slice-right {
+  background-image: url("../assets/outer-bg/right.png");
+  background-repeat: repeat-y;
+  background-size: 100% auto;
+  background-position: center top;
+}
+.nine-slice-panel--outer-bg .nine-slice-bottom-left { background-image: url("../assets/outer-bg/bottom-left.png"); }
+.nine-slice-panel--outer-bg .nine-slice-bottom {
+  background-image: url("../assets/outer-bg/bottom.png");
+  background-repeat: repeat-x;
+  background-size: auto 100%;
+  background-position: left center;
+}
+.nine-slice-panel--outer-bg .nine-slice-bottom-right { background-image: url("../assets/outer-bg/bottom-right.png"); }
+
+/* Inner card: use inner-bg folder; all edges no-repeat (stretch) to avoid seams */
+.nine-slice-panel--inner-bg .nine-slice-top-left { background-image: url("../assets/inner-bg/top-left.png"); }
+.nine-slice-panel--inner-bg .nine-slice-top {
+  background-image: url("../assets/inner-bg/top.png");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-position: center;
+}
+.nine-slice-panel--inner-bg .nine-slice-top-right { background-image: url("../assets/inner-bg/top-right.png"); }
+.nine-slice-panel--inner-bg .nine-slice-left {
+  background-image: url("../assets/inner-bg/left.png");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-position: center;
+  transform: translateX(0.9px);
+}
+.nine-slice-panel--inner-bg .nine-slice-center { background-image: url("../assets/inner-bg/center.png"); }
+.nine-slice-panel--inner-bg .nine-slice-right {
+  background-image: url("../assets/inner-bg/right.png");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-position: center;
+  transform: translateX(-0.9px);
+}
+.nine-slice-panel--inner-bg .nine-slice-bottom-left { background-image: url("../assets/inner-bg/bottom-left.png"); }
+.nine-slice-panel--inner-bg .nine-slice-bottom {
+  background-image: url("../assets/inner-bg/bottom.png");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-position: center;
+}
+.nine-slice-panel--inner-bg .nine-slice-bottom-right { background-image: url("../assets/inner-bg/bottom-right.png"); }

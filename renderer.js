@@ -61,7 +61,7 @@ function updateProgress() {
     const totalQuestions = questions.length;
     const progress = ((currentStep + 1) / totalQuestions) * 100;
     
-    progressFill.style.width = `${progress}%`;
+    if (progressFill) progressFill.style.width = `${progress}%`;
     progressText.textContent = `Question ${currentStep + 1} of ${totalQuestions}`;
 }
 
@@ -307,6 +307,7 @@ async function startCoffeeShopFlow() {
     const resultsList = document.getElementById('coffee-finder-results');
     const mapContainer = document.getElementById('coffee-finder-map');
     const cardInner = document.querySelector('.card-inner');
+    const mainCardPanel = document.getElementById('main-card-panel');
 
     let mapInitialized = false;
 
@@ -314,9 +315,8 @@ async function startCoffeeShopFlow() {
     quizSection.style.display = 'none';
     resultsSection.style.display = 'none';
     coffeeFinderUi.style.display = 'block';
-    if (cardInner) {
-        cardInner.classList.add('card-inner--coffee');
-    }
+    if (cardInner) cardInner.classList.add('card-inner--coffee');
+    if (mainCardPanel) mainCardPanel.classList.add('nine-slice-panel--coffee');
     document.body.classList.add('coffee-mode');
 
     async function runSearch() {
@@ -593,9 +593,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         };
 
         const cardInner = document.querySelector('.card-inner');
-        if (cardInner) {
-            cardInner.classList.remove('card-inner--coffee');
-        }
+        const mainCardPanel = document.getElementById('main-card-panel');
+        if (cardInner) cardInner.classList.remove('card-inner--coffee');
+        if (mainCardPanel) mainCardPanel.classList.remove('nine-slice-panel--coffee');
         document.body.classList.remove('coffee-mode');
 
         // Show quiz, hide results
