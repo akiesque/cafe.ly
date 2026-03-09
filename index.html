@@ -17,34 +17,48 @@
 </head>
 <body class="main-page balsamiq-sans-regular">
     <div class="main-page-bg" aria-hidden="true">
-        <img class="main-page-bg-img" src="assets/bg.png" alt="">
+        <img class="main-page-bg-img" src="assets/interface/bg.png" alt="">
         <div class="main-page-bg-overlay"></div>
     </div>
 
     <div class="logo-sign">
-        <img src="assets/logocafelys.png" alt="Café.ly logo">
+        <img class="logo-sign-img logo-sign-img--large" src="assets/interface/logocafelys.png" alt="Café.ly logo">
+        <img class="logo-sign-img logo-sign-img--small" src="assets/interface/small_logo.png" alt="Café.ly logo">
     </div>
 
     <div class="main-interface">
-        <div class="card card-outline"></div>
-        <div class="card card-outer"></div>
-        <div class="card card-outer card-border"></div>
-        <div class="card card-dashed"><img src="assets/card-dashed.png" alt=""></div>
-        <div class="card card-inner">
-            <img src="assets/card_bg.png" alt="" class="card-inner-bg card-inner-bg-quiz">
-            <img src="assets/main_interface_coffeeshop.png" alt="" class="card-inner-bg card-inner-bg-coffee">
-            <div class="app-container">
+        <div class="nine-slice-panel nine-slice-panel--outer-bg" id="main-card-panel">
+            <div class="nine-slice-top-left" aria-hidden="true"></div>
+            <div class="nine-slice-top" aria-hidden="true"></div>
+            <div class="nine-slice-top-right" aria-hidden="true"></div>
+            <div class="nine-slice-left" aria-hidden="true"></div>
+            <div class="nine-slice-center">
+                <div class="nine-slice-panel nine-slice-panel--inner-bg card-inner" id="inner-card-panel">
+                    <div class="nine-slice-top-left" aria-hidden="true"></div>
+                    <div class="nine-slice-top" aria-hidden="true"></div>
+                    <div class="nine-slice-top-right" aria-hidden="true"></div>
+                    <div class="nine-slice-left" aria-hidden="true"></div>
+                    <div class="nine-slice-center">
+                        <img src="assets/interface/card_bg.png" alt="" class="card-inner-bg card-inner-bg-quiz">
+                        <img src="assets/interface/main_interface_coffeeshop.png" alt="" class="card-inner-bg card-inner-bg-coffee">
+                        <div class="app-container">
 
                 <div id="coffee-finder-ui" class="coffee-finder-ui" style="display: none;">
                     <div id="global-tooltip"></div>
                     <div class="coffee-finder-controls">
+                        <button id="coffee-finder-back-btn" class="coffee-finder-back-btn" aria-label="Back to quiz">
+                            <img src="assets/button/back.png" alt="" class="coffee-finder-back-icon">
+                        </button>
                         <input
                             id="coffee-finder-address"
                             type="text"
                             class="coffee-finder-input"
                             placeholder="Enter your address or area to search for coffee shops..." />
                         <button id="coffee-finder-search-btn" class="coffee-finder-search-btn" aria-label="Find Coffee Shops">
-                            <img src="../cafe.ly/assets/search.png" alt="" class="coffee-finder-search-icon">
+                            <img src="assets/button/search.png" alt="" class="coffee-finder-search-icon">
+                        </button>
+                        <button id="coffee-finder-location-btn" class="coffee-finder-location-btn" aria-label="Use my current location">
+                            <img src="assets/button/location.png" alt="" class="coffee-finder-location-icon">
                         </button>
                     </div>
 
@@ -80,31 +94,43 @@
                 </div>
 
                 <div id="results-section" class="results-section" style="display: none;">
-                    <h2 class="results-title">We Recommend:</h2>
+                    <h2 class="results-title">Our Recommendations</h2>
                     <ul id="recommendations-list" class="recommendations-list"></ul>
                     <button id="back-btn" class="back-btn"><span class="btn-label">🔙 Take Quiz Again</span></button>
                 </div>
             </div>
+            </div>
+            <div class="nine-slice-right" aria-hidden="true"></div>
+            <div class="nine-slice-bottom-left" aria-hidden="true"></div>
+            <div class="nine-slice-bottom" aria-hidden="true"></div>
+            <div class="nine-slice-bottom-right" aria-hidden="true"></div>
+            </div>
+            <div class="card-progress-bar" id="card-progress-bar" aria-hidden="true">
+                <div class="card-progress-bar-outer">
+                    <div class="card-progress-bar-border-brown">
+                        <div class="card-progress-bar-border-dashed">
+                            <div class="card-progress-bar-track">
+                                <div id="progress-fill" class="card-progress-bar-fill" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+            <div class="nine-slice-right" aria-hidden="true"></div>
+            <div class="nine-slice-bottom-left" aria-hidden="true"></div>
+            <div class="nine-slice-bottom" aria-hidden="true"></div>
+            <div class="nine-slice-bottom-right" aria-hidden="true"></div>
         </div>
     </div>
 
     <div class="nav-arrows" id="nav-arrows" aria-hidden="true">
         <button type="button" class="nav-arrow nav-arrow-left" id="nav-arrow-left" aria-label="Scroll choices left">
-            <img src="assets/arrow-left.png" alt="" width="91" height="91">
+            <img src="assets/button/arrow-left.png" alt="" width="91" height="91">
         </button>
         <button type="button" class="nav-arrow nav-arrow-right" id="nav-arrow-right" aria-label="Scroll choices right">
-            <img src="assets/arrow-right.png" alt="" width="91" height="91">
+            <img src="assets/button/arrow-right.png" alt="" width="91" height="91">
         </button>
-    </div>
-
-    <div class="progress-bar-outer">
-        <div class="progress-bar-layer progress-bar-outline"></div>
-        <div class="progress-bar-layer progress-bar-shadow"></div>
-        <div class="progress-bar-layer progress-bar-border"></div>
-        <div class="progress-bar-layer progress-bar-dashed"></div>
-        <div class="progress-bar-layer progress-bar-track">
-            <div id="progress-fill" class="progress-bar-fill"></div>
-        </div>
     </div>
 
     <script

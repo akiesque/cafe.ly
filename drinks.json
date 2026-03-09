@@ -245,7 +245,7 @@
   {
     "name": "Brown Sugar Latte",
     "caffeine": "Medium",
-    "temp": "Hot",
+    "temp": "Cold",
     "flavor": "Sweet",
     "strength": "Medium",
     " category": " Coffee",
@@ -299,8 +299,8 @@
   {
     "name": "Biscoff Latte",
     "caffeine": "Medium",
-    "temp": "Hot",
-    "flavor": "Spicy",
+    "temp": "Cold",
+    "flavor": "Sweet",
     "strength": "Medium",
     " category": " Coffee",
     "caffeine_mg": 63

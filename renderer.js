@@ -61,7 +61,10 @@ function updateProgress() {
     const totalQuestions = questions.length;
     const progress = ((currentStep + 1) / totalQuestions) * 100;
     
-    progressFill.style.width = `${progress}%`;
+    if (progressFill) {
+        progressFill.style.width = `${progress}%`;
+        progressFill.setAttribute('aria-valuenow', Math.round(progress));
+    }
     progressText.textContent = `Question ${currentStep + 1} of ${totalQuestions}`;
 }
 
@@ -228,7 +231,30 @@ function attachDrinkImages() {
 function selectOption(key, value) {
     // Special case: user wants to find a coffee shop instead of a drink recommendation
     if (key === 'name' && value === 'Find a coffee shop') {
-        startCoffeeShopFlow();
+        const logo = document.querySelector('.logo-sign');
+
+        // If we don't have the logo for some reason, just fall back immediately.
+        if (!logo) {
+            startCoffeeShopFlow();
+            return;
+        }
+
+        // Avoid double-trigger if we're already in coffee mode.
+        if (document.body.classList.contains('coffee-mode')) {
+            startCoffeeShopFlow();
+            return;
+        }
+
+        // Play the upward \"leave\" animation first, then enter coffee mode.
+        logo.classList.add('logo-sign--leaving');
+
+        const handleLogoLeaveEnd = () => {
+            logo.classList.remove('logo-sign--leaving');
+            logo.removeEventListener('animationend', handleLogoLeaveEnd);
+            startCoffeeShopFlow();
+        };
+
+        logo.addEventListener('animationend', handleLogoLeaveEnd);
         return;
     }
 
@@ -278,15 +304,23 @@ function showResults() {
         navArrows.classList.remove('nav-arrows-visible');
         navArrows.setAttribute('aria-hidden', 'true');
     }
+    const cardInnerResults = document.querySelector('.card-inner');
+    if (cardInnerResults) cardInnerResults.classList.add('card-inner--results');
     resultsSection.style.display = 'block';
     resultsSection.style.opacity = '0';
     resultsSection.style.transform = 'translateY(20px)';
-    
+
+    const cardProgressBar = document.getElementById('card-progress-bar');
+    if (cardProgressBar) {
+        cardProgressBar.classList.remove('is-visible');
+        cardProgressBar.setAttribute('aria-hidden', 'true');
+    }
+
     setTimeout(() => {
         resultsSection.style.opacity = '1';
         resultsSection.style.transform = 'translateY(0)';
     }, 50);
-    
+
     window.scrollTo(0, 0);
 }
 
@@ -304,32 +338,47 @@ async function startCoffeeShopFlow() {
     const coffeeFinderUi = document.getElementById('coffee-finder-ui');
     const addressInput = document.getElementById('coffee-finder-address');
     const searchBtn = document.getElementById('coffee-finder-search-btn');
+    const locationBtn = document.getElementById('coffee-finder-location-btn');
+    const backToQuizBtn = document.getElementById('coffee-finder-back-btn');
     const resultsList = document.getElementById('coffee-finder-results');
     const mapContainer = document.getElementById('coffee-finder-map');
     const cardInner = document.querySelector('.card-inner');
+    const mainCardPanel = document.getElementById('main-card-panel');
 
     let mapInitialized = false;
+    let lastLocation = null; // { lat, lon } when obtained from IP-based lookup
 
     // Show the coffee-finder UI, hide quiz/results
     quizSection.style.display = 'none';
     resultsSection.style.display = 'none';
     coffeeFinderUi.style.display = 'block';
-    if (cardInner) {
-        cardInner.classList.add('card-inner--coffee');
+    const cardProgressBarEl = document.getElementById('card-progress-bar');
+    if (cardProgressBarEl) {
+        cardProgressBarEl.classList.remove('is-visible');
+        cardProgressBarEl.setAttribute('aria-hidden', 'true');
     }
+    if (cardInner) cardInner.classList.add('card-inner--coffee');
+    if (mainCardPanel) mainCardPanel.classList.add('nine-slice-panel--coffee');
     document.body.classList.add('coffee-mode');
 
-    async function runSearch() {
+    async function runSearch(options = {}) {
+        // Prefer an explicit location passed in, otherwise fall back to the last detected one,
+        // and only then to the typed address.
+        const explicitLocation = options.location;
+        const location = explicitLocation || lastLocation;
         const addr = addressInput.value.trim();
-        if (!addr) return;
+        if (!location && !addr) return;
 
         resultsList.innerHTML = '<li class="recommendation-item">Searching for nearby coffee shops...</li>';
 
         try {
             let data;
-            if (window.api && typeof window.api.findCoffee === 'function') {
+            if (location && window.api && typeof window.api.findCoffee === 'function') {
+                // New path: search by coordinates { lat, lon } from browser geolocation.
+                data = await window.api.findCoffee(location);
+            } else if (!location && window.api && typeof window.api.findCoffee === 'function') {
                 data = await window.api.findCoffee(addr);
-            } else if (window.coffeeFinder && typeof window.coffeeFinder.search === 'function') {
+            } else if (!location && window.coffeeFinder && typeof window.coffeeFinder.search === 'function') {
                 // Backwards-compatible: legacy API returned a flat array.
                 const shopsLegacy = await window.coffeeFinder.search(addr);
                 data = {
@@ -419,10 +468,11 @@ async function startCoffeeShopFlow() {
                             <strong>${name}</strong>
                             <span class="coffee-shop-amenities">${icons}</span>
                         </div>
-                        <div class="coffee-shop-status">
-                                ${openingStatus}
-                                ${distanceText ? ` • ${distanceText}` : ''}
-                            </div>
+                        <div class="coffee-shop-meta">
+                            <span class="coffee-shop-status">${openingStatus}</span>
+                            ${distanceText ? `<span class="coffee-shop-dot">•</span><span class="coffee-shop-distance">${distanceText}</span>` : ''}
+                        </div>
+                        ${addressText ? `<div class="coffee-shop-address">${addressText}</div>` : ''}
                     </li>
                 `;
             }).join('');
@@ -453,10 +503,95 @@ async function startCoffeeShopFlow() {
         }
     }
 
+    // Use IP-based lookup (ip-api.com) to get an approximate location and trigger a search.
+    async function getMyLocationByIP() {
+        if (!locationBtn) return;
+
+        try {
+            locationBtn.disabled = true;
+            locationBtn.classList.add('is-loading');
+
+            const res = await fetch('http://ip-api.com/json');
+
+            if (!res || !res.ok) {
+                console.warn('IP location lookup failed with status:', res && res.status);
+                resultsList.innerHTML =
+                    '<li class="recommendation-item">Unable to detect your location. Please type a city or address instead.</li>';
+                return;
+            }
+
+            const data = await res.json();
+            console.log('ip-api data:', data);
+
+            if (!data || data.status === 'fail') {
+                console.warn('IP location lookup failed:', data);
+                resultsList.innerHTML =
+                    '<li class="recommendation-item">Unable to detect your location. Please type a city or address instead.</li>';
+                return;
+            }
+
+            const lat = data.lat;
+            const lon = data.lon;
+
+            if (!Number.isFinite(lat) || !Number.isFinite(lon)) {
+                resultsList.innerHTML =
+                    '<li class="recommendation-item">Unable to detect your location. Please type a city or address instead.</li>';
+                return;
+            }
+
+            // Store for potential reuse.
+            lastLocation = { lat, lon };
+
+            // Insert into the existing coffee-finder address input as a hint.
+            if (addressInput) {
+                const labelParts = [];
+                if (data.city) labelParts.push(data.city);
+                if (data.regionName) labelParts.push(data.regionName);
+                if (data.country) labelParts.push(data.country);
+
+                addressInput.value =
+                    labelParts.length ? labelParts.join(', ') : `${lat.toFixed(5)}, ${lon.toFixed(5)}`;
+            }
+
+            // Trigger the existing search flow, preferring the lat/lon coordinates.
+            await runSearch({ location: lastLocation });
+        } catch (err) {
+            console.error('Error getting IP-based location:', err);
+            resultsList.innerHTML =
+                '<li class="recommendation-item">Unable to detect your location. Please check your connection, or type a city/address instead.</li>';
+        } finally {
+            if (locationBtn) {
+                locationBtn.disabled = false;
+                locationBtn.classList.remove('is-loading');
+            }
+            if (addressInput) {
+                addressInput.focus();
+            }
+        }
+    }
+
     // Attach once
     if (!searchBtn._coffeeFinderBound) {
-        searchBtn.addEventListener('click', runSearch);
+        searchBtn.addEventListener('click', () => runSearch());
         searchBtn._coffeeFinderBound = true;
+    }
+
+    if (locationBtn && !locationBtn._coffeeFinderBound) {
+        locationBtn.addEventListener('click', getMyLocationByIP);
+        locationBtn._coffeeFinderBound = true;
+    }
+
+    if (backToQuizBtn && !backToQuizBtn._coffeeFinderBound) {
+        backToQuizBtn.addEventListener('click', () => {
+            // Hide the coffee finder UI and reuse the existing quiz back logic
+            coffeeFinderUi.style.display = 'none';
+
+            const backBtn = document.getElementById('back-btn');
+            if (backBtn) {
+                backBtn.click();
+            }
+        });
+        backToQuizBtn._coffeeFinderBound = true;
     }
 }
 
@@ -567,16 +702,26 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Start on welcome screen; quiz appears after clicking Start
     quizSection.style.display = 'none';
     startSection.style.display = 'block';
-    
+
+    const cardInner = document.querySelector('.card-inner');
+    if (cardInner) cardInner.classList.add('card-inner--start');
+
     // Arrow buttons: scroll choices left/right when >= 4 options
     document.getElementById('nav-arrow-left').addEventListener('click', () => scrollOptions('left'));
     document.getElementById('nav-arrow-right').addEventListener('click', () => scrollOptions('right'));
 
-    // Start button -> show quiz and first question
+    // Start button -> show quiz, first question, and progress bar with smooth reveal
+    const cardProgressBar = document.getElementById('card-progress-bar');
     startBtn.addEventListener('click', () => {
+        const inner = document.querySelector('.card-inner');
+        if (inner) inner.classList.remove('card-inner--start');
         startSection.style.display = 'none';
         quizSection.style.display = 'block';
         currentStep = 0;
+        if (cardProgressBar) {
+            cardProgressBar.classList.add('is-visible');
+            cardProgressBar.setAttribute('aria-hidden', 'false');
+        }
         showQuestion();
     });
     
@@ -593,14 +738,21 @@ document.addEventListener('DOMContentLoaded', async () => {
         };
 
         const cardInner = document.querySelector('.card-inner');
+        const mainCardPanel = document.getElementById('main-card-panel');
         if (cardInner) {
             cardInner.classList.remove('card-inner--coffee');
+            cardInner.classList.remove('card-inner--results');
         }
+        if (mainCardPanel) mainCardPanel.classList.remove('nine-slice-panel--coffee');
         document.body.classList.remove('coffee-mode');
 
-        // Show quiz, hide results
+        // Show quiz, hide results; show progress bar again (card stays quiz size, no --start)
         resultsSection.style.display = 'none';
         quizSection.style.display = 'block';
+        if (cardProgressBar) {
+            cardProgressBar.classList.add('is-visible');
+            cardProgressBar.setAttribute('aria-hidden', 'false');
+        }
         showQuestion();
         window.scrollTo(0, 0);
     });
