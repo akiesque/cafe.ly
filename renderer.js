@@ -231,7 +231,30 @@ function attachDrinkImages() {
 function selectOption(key, value) {
     // Special case: user wants to find a coffee shop instead of a drink recommendation
     if (key === 'name' && value === 'Find a coffee shop') {
-        startCoffeeShopFlow();
+        const logo = document.querySelector('.logo-sign');
+
+        // If we don't have the logo for some reason, just fall back immediately.
+        if (!logo) {
+            startCoffeeShopFlow();
+            return;
+        }
+
+        // Avoid double-trigger if we're already in coffee mode.
+        if (document.body.classList.contains('coffee-mode')) {
+            startCoffeeShopFlow();
+            return;
+        }
+
+        // Play the upward \"leave\" animation first, then enter coffee mode.
+        logo.classList.add('logo-sign--leaving');
+
+        const handleLogoLeaveEnd = () => {
+            logo.classList.remove('logo-sign--leaving');
+            logo.removeEventListener('animationend', handleLogoLeaveEnd);
+            startCoffeeShopFlow();
+        };
+
+        logo.addEventListener('animationend', handleLogoLeaveEnd);
         return;
     }
 

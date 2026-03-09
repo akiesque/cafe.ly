@@ -726,9 +726,13 @@ body {
   max-width: 100%;
   pointer-events: none;
   z-index: 8;
-  transition: top 250ms cubic-bezier(0.4, 0, 0.2, 1),
-              width 250ms cubic-bezier(0.4, 0, 0.2, 1),
-              transform 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  transition: top 200ms cubic-bezier(0.4, 0, 0.2, 1),
+              width 200ms cubic-bezier(0.4, 0, 0.2, 1),
+              transform 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.logo-sign.logo-sign--leaving {
+  animation: logo-coffee-leave 300ms ease-in forwards;
 }
 
 .coffee-mode .logo-sign {
@@ -736,12 +740,59 @@ body {
   left: 15%;
   width: 260px;
   max-width: 80%;
+  transition: none;
+}
+
+@keyframes logo-coffee-leave {
+  0% {
+    transform: translateX(-50%) translateY(0);
+  }
+  100% {
+    transform: translateX(-50%) translateY(-100%);
+  }
 }
 
 .logo-sign img {
   width: 100%;
   height: auto;
   display: block;
+}
+
+/* Quiz/default: show large logo only; hide small (specificity over .logo-sign img) */
+.logo-sign .logo-sign-img--small {
+  display: none !important;
+}
+
+/* Coffee mode: hide large logo, show small logo (260×159), no resizing */
+.coffee-mode .logo-sign .logo-sign-img--large {
+  display: none !important;
+}
+
+.coffee-mode .logo-sign .logo-sign-img--small {
+  display: block !important;
+  width: 260px;
+  height: 159px;
+  object-fit: contain;
+  animation: logo-small-enter 900ms cubic-bezier(0.34, 1.56, 0.64, 1) 200ms 1 both;
+}
+
+@keyframes logo-small-enter {
+  0% {
+    transform: translate(0%, -100%);
+    opacity: 0.9;
+  }
+  35% {
+    transform: translate(0%, 5px);
+    opacity: 1;
+  }
+  65% {
+    transform: translate(0%, 10px);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(0%, 0%);
+    opacity: 1;
+  }
 }
 
 .main-interface {
@@ -760,19 +811,6 @@ body {
   box-sizing: border-box;
 }
 
-/* COMMENTED: previous assets – testing outer.png / inner.png only
-.main-interface .card-outline {
-  width: 829px;
-  height: 590px;
-  left: -4px;
-  top: -4px;
-  border: 4px solid #f4e9df;
-  background: transparent;
-  border-radius: 60px;
-  transition: opacity 250ms cubic-bezier(0.4, 0, 0.2, 1);
-}
-*/
-
 /* Main card: nine-slice panel using outer-bg assets */
 .main-interface .nine-slice-panel.nine-slice-panel--outer-bg {
   position: absolute;
@@ -783,11 +821,12 @@ body {
   height: 620px;
   overflow: visible;
   box-sizing: border-box;
+  transition: width 0.4s ease, height 0.4s ease, top 0.4s ease;
 }
 
 .main-interface .nine-slice-panel.nine-slice-panel--outer-bg.nine-slice-panel--coffee {
   width: 913px;
-  height: 670px;
+  height: 650px;
   top: 1px;
 }
 
@@ -872,14 +911,14 @@ body {
 /* Inner card: nine-slice panel using inner-bg */
 .main-interface .nine-slice-panel--outer-bg .nine-slice-panel--inner-bg.card-inner {
   width: 737px;
-  height: 387px;
+  height: 395px;
   left: auto;
   top: auto;
   transform: translateY(0);
   flex: 0 0 auto;
   overflow: visible;
   box-sizing: border-box;
-  margin-top: 20px;
+  margin-top: 30px;
   transition: width 0.4s ease, height 0.4s ease, transform 0.4s ease;
 }
 
@@ -898,8 +937,9 @@ body {
 }
 
 .main-interface .nine-slice-panel--outer-bg .nine-slice-panel--inner-bg.card-inner.card-inner--coffee {
-  width: 100%;
-  height: 100%;
+  width: 850px;
+  height: 580px;
+  transform: translateY(35px);
   min-width: 0;
   min-height: 0;
 }
@@ -1033,8 +1073,6 @@ body {
   pointer-events: none;
 }
 
-/* Half outside card, half overlapping (card is 821px centered: 50% ± 410.5px; button center at card edge) */
-
 .nav-arrow-left {
   left: calc(50% - 410.5px - 45.5px);
   opacity: 0;
@@ -1049,12 +1087,12 @@ body {
 
 .nav-arrows.nav-arrows-visible .nav-arrow-left {
   opacity: 1;
-  transform: translateX(0);
+  transform: translate(-3px, -65px);
 }
 
 .nav-arrows.nav-arrows-visible .nav-arrow-right {
   opacity: 1;
-  transform: translateX(0);
+  transform: translate(3px, -65px);
 }
 
 /* Options scroll area – no scrollbar, scroll via arrows when >= 4 choices */
@@ -1280,25 +1318,27 @@ body {
 /* Coffee finder UI (map + list) */
 
 .coffee-finder-ui {
-  margin-top: 55px;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1rem;
   width: 792px;
-  max-width: 100%;
   height: 520px;
   margin-left: auto;
   margin-right: auto;
-  padding: 2.5rem 2.75rem;
+  padding: 2.5rem 1.25rem;
   border-radius: 36px;
-  /* COMMENTED: previous asset – testing outer/inner.png only
-  background-image: url("../assets/interface/coffee_finder_interface.png");
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-  background-position: center;
-  */
   box-sizing: border-box;
+}
+
+/* In coffee mode, center the coffee-finder UI inside the inner card panel */
+.coffee-mode .main-interface .nine-slice-panel--inner-bg .nine-slice-center {
+  justify-content: center;
+}
+
+.coffee-mode .coffee-finder-ui {
+  margin-top: -50px;
+  margin-bottom: 0;
 }
 
 .coffee-finder-controls {
@@ -1310,8 +1350,8 @@ body {
 
 .coffee-finder-input {
   flex: 1;
-  max-width: 320px;
   padding: 0.5rem 0.75rem;
+  max-width: 500px;
   border-radius: 9999px;
   border: 1px solid #c3752b;
   font-size: 0.95rem;
@@ -1346,7 +1386,7 @@ body {
   align-items: stretch;
   gap: 1.25rem;
   width: 100%;
-  height: 90%;
+  height: 450px;
   flex: 1;
 }
 
@@ -1387,6 +1427,7 @@ body {
 
 .progress-text {
   text-align: center;
+  margin-top: 15px;
   font-size: 0.875rem;
   line-height: 1.25rem;
   font-weight: 500;
@@ -1425,7 +1466,7 @@ body {
 .question-title {
   margin-bottom: 1rem;
   text-align: center;
-  font-size: 1.875rem;
+  font-size: 1.699rem;
   line-height: 2.25rem;
   --tw-text-opacity: 1;
   color: rgb(107 66 38 / var(--tw-text-opacity, 1));
@@ -1545,9 +1586,9 @@ body {
 }
 
 .results-title {
-  margin-bottom: 2rem;
+  margin-top: 3px;
   font-size: 1.25rem;
-  line-height: 1.25rem;
+  line-height: 2.25rem;
   --tw-text-opacity: 1;
   color: rgb(107 66 38 / var(--tw-text-opacity, 1));
 }
@@ -1560,7 +1601,7 @@ body {
 /* Quiz mode: drink recommendations — no top/bottom margin, horizontal layout */
 #results-section .recommendations-list {
   margin-top: 0;
-  margin-bottom: 0;
+  margin-bottom: -30px;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -1675,7 +1716,6 @@ body {
 
 .back-btn {
   position: relative;
-  margin-top: 1.5rem;
   width: 100%;
   cursor: pointer;
   border: 4px solid #D8A372;
@@ -1845,90 +1885,188 @@ body {
   background-image: url("../assets/nine-slice/bottom-right.png");
 }
 
-/* Café.ly main card: use outer-bg folder (edges repeat for dash); left/right overlap to hide seams */
-.nine-slice-panel--outer-bg .nine-slice-top-left {
+/* ---- Outer card: quiz mode (default) ---- */
+.nine-slice-panel--outer-bg:not(.nine-slice-panel--coffee) .nine-slice-top-left {
   background-image: url("../assets/outer-bg/top-left.png");
   transform: translateX(4px);
 }
-.nine-slice-panel--outer-bg .nine-slice-top {
+.nine-slice-panel--outer-bg:not(.nine-slice-panel--coffee) .nine-slice-top {
   background-image: url("../assets/outer-bg/top.png");
   background-repeat: repeat-x;
   background-size: auto 100%;
   background-position: left center;
 }
-.nine-slice-panel--outer-bg .nine-slice-top-right {
+.nine-slice-panel--outer-bg:not(.nine-slice-panel--coffee) .nine-slice-top-right {
   background-image: url("../assets/outer-bg/top-right.png");
   transform: translateX(-4px);
 }
-.nine-slice-panel--outer-bg .nine-slice-left {
+.nine-slice-panel--outer-bg:not(.nine-slice-panel--coffee) .nine-slice-left {
   background-image: url("../assets/outer-bg/left.png");
   background-repeat: repeat-y;
   background-size: 100% auto;
   background-position: center top;
   transform: translateX(4px);
 }
-.nine-slice-panel--outer-bg .nine-slice-center { background-image: url("../assets/outer-bg/center.png"); }
-.nine-slice-panel--outer-bg .nine-slice-right {
+.nine-slice-panel--outer-bg:not(.nine-slice-panel--coffee) .nine-slice-center {
+  background-image: url("../assets/outer-bg/center.png");
+}
+.nine-slice-panel--outer-bg:not(.nine-slice-panel--coffee) .nine-slice-right {
   background-image: url("../assets/outer-bg/right.png");
   background-repeat: repeat-y;
   background-size: 100% auto;
   background-position: center top;
   transform: translateX(-4px);
 }
-.nine-slice-panel--outer-bg .nine-slice-bottom-left {
+.nine-slice-panel--outer-bg:not(.nine-slice-panel--coffee) .nine-slice-bottom-left {
   background-image: url("../assets/outer-bg/bottom-left.png");
   transform: translateX(4px);
 }
-.nine-slice-panel--outer-bg .nine-slice-bottom {
+.nine-slice-panel--outer-bg:not(.nine-slice-panel--coffee) .nine-slice-bottom {
   background-image: url("../assets/outer-bg/bottom.png");
   background-repeat: repeat-x;
   background-size: auto 100%;
   background-position: left center;
 }
-.nine-slice-panel--outer-bg .nine-slice-bottom-right {
+.nine-slice-panel--outer-bg:not(.nine-slice-panel--coffee) .nine-slice-bottom-right {
   background-image: url("../assets/outer-bg/bottom-right.png");
   transform: translateX(-4px);
 }
 
-/* Inner card: use inner-bg folder; all edges no-repeat (stretch) to avoid seams */
-.nine-slice-panel--inner-bg .nine-slice-top {
+/* ---- Outer card: coffee mode (use assets/outer-bg-coffee/ when you have them) ---- */
+.nine-slice-panel--outer-bg.nine-slice-panel--coffee .nine-slice-top-left {
+  background-image: url("../assets/outer-bg/top-left.png");
+  transform: translateX(4px);
+}
+.nine-slice-panel--outer-bg.nine-slice-panel--coffee .nine-slice-top {
+  background-image: url("../assets/outer-bg/top.png");
+  background-repeat: repeat-x;
+  background-size: auto 100%;
+  background-position: left center;
+}
+.nine-slice-panel--outer-bg.nine-slice-panel--coffee .nine-slice-top-right {
+  background-image: url("../assets/outer-bg/top-right.png");
+  transform: translateX(-4px);
+}
+.nine-slice-panel--outer-bg.nine-slice-panel--coffee .nine-slice-left {
+  background-image: url("../assets/outer-bg/left.png");
+  background-repeat: repeat-y;
+  background-size: 100% auto;
+  background-position: center top;
+  transform: translateX(4px);
+}
+.nine-slice-panel--outer-bg.nine-slice-panel--coffee .nine-slice-center {
+  background-image: url("../assets/outer-bg/center.png");
+}
+.nine-slice-panel--outer-bg.nine-slice-panel--coffee .nine-slice-right {
+  background-image: url("../assets/outer-bg/right.png");
+  background-repeat: repeat-y;
+  background-size: 100% auto;
+  background-position: center top;
+  transform: translateX(-4px);
+}
+.nine-slice-panel--outer-bg.nine-slice-panel--coffee .nine-slice-bottom-left {
+  background-image: url("../assets/outer-bg/bottom-left.png");
+  transform: translateX(4px);
+}
+.nine-slice-panel--outer-bg.nine-slice-panel--coffee .nine-slice-bottom {
+  background-image: url("../assets/outer-bg/bottom.png");
+  background-repeat: repeat-x;
+  background-size: auto 100%;
+  background-position: left center;
+}
+.nine-slice-panel--outer-bg.nine-slice-panel--coffee .nine-slice-bottom-right {
+  background-image: url("../assets/outer-bg/bottom-right.png");
+  transform: translateX(-4px);
+}
+
+/* ---- Inner card: quiz mode (default) ---- */
+.nine-slice-panel--inner-bg:not(.card-inner--coffee) .nine-slice-top {
   background-image: url("../assets/inner-bg/top.png");
   background-repeat: no-repeat;
   background-size: 100% 100%;
   background-position: center;
 }
-.nine-slice-panel--inner-bg .nine-slice-left {
+.nine-slice-panel--inner-bg:not(.card-inner--coffee) .nine-slice-left {
   background-image: url("../assets/inner-bg/left.png");
   background-repeat: no-repeat;
   background-size: 100% 100%;
   background-position: center;
   transform: translateX(4px);
 }
-.nine-slice-panel--inner-bg .nine-slice-center { background-image: url("../assets/inner-bg/center.png"); }
-.nine-slice-panel--inner-bg .nine-slice-right {
+.nine-slice-panel--inner-bg:not(.card-inner--coffee) .nine-slice-center {
+  background-image: url("../assets/inner-bg/center.png");
+}
+.nine-slice-panel--inner-bg:not(.card-inner--coffee) .nine-slice-right {
   background-image: url("../assets/inner-bg/right.png");
   background-repeat: no-repeat;
   background-size: 100% 100%;
   background-position: center;
   transform: translateX(-4px);
 }
-.nine-slice-panel--inner-bg .nine-slice-top-left {
+.nine-slice-panel--inner-bg:not(.card-inner--coffee) .nine-slice-top-left {
   background-image: url("../assets/inner-bg/top-left.png");
   transform: translateX(4px);
 }
-.nine-slice-panel--inner-bg .nine-slice-top-right {
+.nine-slice-panel--inner-bg:not(.card-inner--coffee) .nine-slice-top-right {
   background-image: url("../assets/inner-bg/top-right.png");
   transform: translateX(-4px);
 }
-.nine-slice-panel--inner-bg .nine-slice-bottom-left {
+.nine-slice-panel--inner-bg:not(.card-inner--coffee) .nine-slice-bottom-left {
   background-image: url("../assets/inner-bg/bottom-left.png");
   transform: translateX(4px);
 }
-.nine-slice-panel--inner-bg .nine-slice-bottom-right {
+.nine-slice-panel--inner-bg:not(.card-inner--coffee) .nine-slice-bottom-right {
   background-image: url("../assets/inner-bg/bottom-right.png");
   transform: translateX(-4px);
 }
-.nine-slice-panel--inner-bg .nine-slice-bottom {
+.nine-slice-panel--inner-bg:not(.card-inner--coffee) .nine-slice-bottom {
+  background-image: url("../assets/inner-bg/bottom.png");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-position: center;
+}
+
+/* ---- Inner card: coffee mode (use assets/inner-bg-coffee/ when you have them) ---- */
+.nine-slice-panel--inner-bg.card-inner--coffee .nine-slice-top {
+  background-image: url("../assets/inner-bg/top.png");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-position: center;
+}
+.nine-slice-panel--inner-bg.card-inner--coffee .nine-slice-left {
+  background-image: url("../assets/inner-bg/left.png");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-position: center;
+  transform: translateX(4px);
+}
+.nine-slice-panel--inner-bg.card-inner--coffee .nine-slice-center {
+  background-image: url("../assets/inner-bg/center.png");
+}
+.nine-slice-panel--inner-bg.card-inner--coffee .nine-slice-right {
+  background-image: url("../assets/inner-bg/right.png");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-position: center;
+  transform: translateX(-4px);
+}
+.nine-slice-panel--inner-bg.card-inner--coffee .nine-slice-top-left {
+  background-image: url("../assets/inner-bg/top-left.png");
+  transform: translateX(4px);
+}
+.nine-slice-panel--inner-bg.card-inner--coffee .nine-slice-top-right {
+  background-image: url("../assets/inner-bg/top-right.png");
+  transform: translateX(-4px);
+}
+.nine-slice-panel--inner-bg.card-inner--coffee .nine-slice-bottom-left {
+  background-image: url("../assets/inner-bg/bottom-left.png");
+  transform: translateX(4px);
+}
+.nine-slice-panel--inner-bg.card-inner--coffee .nine-slice-bottom-right {
+  background-image: url("../assets/inner-bg/bottom-right.png");
+  transform: translateX(-4px);
+}
+.nine-slice-panel--inner-bg.card-inner--coffee .nine-slice-bottom {
   background-image: url("../assets/inner-bg/bottom.png");
   background-repeat: no-repeat;
   background-size: 100% 100%;
