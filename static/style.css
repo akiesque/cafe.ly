@@ -1378,6 +1378,50 @@ body {
   content: url("../assets/button/search-hover.png");
 }
 
+/* Back-to-quiz button to the left of the input */
+.coffee-finder-back-btn {
+  border: none;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.coffee-finder-back-icon {
+  display: block;
+  width: 52px;
+  height: 52px;
+}
+
+.coffee-finder-back-btn:hover .coffee-finder-back-icon,
+.coffee-finder-back-btn:focus-visible .coffee-finder-back-icon {
+  content: url("../assets/button/back-hover.png");
+}
+
+/* Use-my-location button: matches search button styling */
+.coffee-finder-location-btn {
+  border: none;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.coffee-finder-location-icon {
+  display: block;
+  width: 52px;
+  height: 52px;
+}
+
+.coffee-finder-location-btn:hover .coffee-finder-location-icon,
+.coffee-finder-location-btn:focus-visible .coffee-finder-location-icon {
+  content: url("../assets/button/location-hover.png");
+}
+
 /* Inner layout row: map + results, inside the framed container */
 .coffee-finder-layout {
   position: relative;
@@ -1633,7 +1677,7 @@ body {
   }
 }
 
-/* Quiz mode: results section — vertical layout, images only (drink images contain their own text) */
+/* Quiz mode: results section — vertical layout, images only */
 #results-section .recommendation-item {
   display: flex;
   flex-direction: column;
@@ -1642,7 +1686,7 @@ body {
   opacity: 0;
   transform: translateY(-20px);
   animation: slideFadeIn 0.5s ease forwards;
-  visibility: hidden; /* hide text node, show only .drink-icon below */
+  visibility: hidden; /* hide text node, but contain somewhere for the drink icon */
 }
 #results-section .recommendation-item .drink-icon {
   visibility: visible;
@@ -1651,12 +1695,11 @@ body {
 /* Coffee mode: finder results — row layout, each item has a background panel */
 #coffee-finder-results .recommendation-item {
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 1rem;
+  flex-direction: column;
+  align-items: flex-start;
   width: 100%;
   margin-bottom: 0;
-  padding: 0.75rem 1rem;
+  padding: 1.25rem 1rem;
   background-color: rgba(248, 243, 233, 0.95);
   border: 2px solid #d8a372;
   border-radius: 12px;
@@ -1664,6 +1707,29 @@ body {
   opacity: 0;
   transform: translateY(-20px);
   animation: slideFadeIn 0.5s ease forwards;
+}
+
+.coffee-shop-address {
+  font-size: 0.85rem;
+  color: #6b4a32;
+  margin-top: 2px;
+}
+
+.coffee-shop-meta {
+  margin-top: 0.15rem;
+  font-size: 0.9rem;
+  color: rgb(75 85 99);
+  display: flex;
+  align-items: baseline;
+  gap: 0.35rem;
+}
+
+.coffee-shop-dot {
+  opacity: 0.7;
+}
+
+.coffee-shop-distance {
+  white-space: nowrap;
 }
 
 .drink-icon {
@@ -1700,12 +1766,6 @@ body {
 
 .coffee-shop-amenities {
   font-size: 0.95rem;
-}
-
-.coffee-shop-status {
-  margin-top: 0.25rem;
-  font-size: 0.9rem;
-  color: rgb(75 85 99);
 }
 
 .coffee-shop-item--active {
