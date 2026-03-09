@@ -780,11 +780,9 @@ body {
   top: 0;
   transform: translateX(-50%);
   width: 821px;
-  height: 582px;
+  height: 620px;
   overflow: visible;
   box-sizing: border-box;
-  box-shadow: 0 0 0 5px #f4e9df;
-  border-radius: 30px;
 }
 
 .main-interface .nine-slice-panel.nine-slice-panel--outer-bg.nine-slice-panel--coffee {
@@ -795,21 +793,108 @@ body {
 
 .main-interface .nine-slice-panel--outer-bg .nine-slice-center {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 0;
+  gap: 0;
+  min-height: 0;
 }
 
-/* Inner card: nine-slice panel using inner-bg (no border-radius, white border behind) */
+/* Progress bar inside outer card, below inner panel – appears after Start */
+.card-progress-bar {
+  flex: 0 0 auto;
+  width: 100%;
+  max-width: 820px;
+  padding: 0 1.5rem 1rem;
+  opacity: 0;
+  transform: translateY(8px);
+  pointer-events: none;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  margin-top: 20px;
+}
+
+.card-progress-bar.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* Layered progress bar (Figma: cafe.ly node 36:21) */
+.card-progress-bar-outer {
+  width: 100%;
+  min-height: 54px;
+  padding: 4px;
+  background: #efc9a6;
+  border: 4px solid #f4e9df;
+  border-radius: 56px;
+  box-shadow: 0 5px 13.4px rgba(180, 146, 115, 0.58);
+  box-sizing: border-box;
+}
+
+.card-progress-bar-border-brown {
+  width: 100%;
+  min-height: 32px;
+  padding: 5px;
+  background: transparent;
+  border: 5px solid #a95f19;
+  border-radius: 48px;
+  box-sizing: border-box;
+}
+
+.card-progress-bar-border-dashed {
+  width: 100%;
+  min-height: 18px;
+  padding: 3px;
+  background: transparent;
+  border: 3px dashed #d8a372;
+  border-radius: 40px;
+  box-sizing: border-box;
+}
+
+.card-progress-bar-track {
+  height: 20px;
+  width: 100%;
+  background-color: #ffead6;
+  border-radius: 34px;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.card-progress-bar-fill {
+  height: 100%;
+  width: 0%;
+  border-radius: 34px;
+  background-color: #efc9a6;
+  transition: width 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Inner card: nine-slice panel using inner-bg */
 .main-interface .nine-slice-panel--outer-bg .nine-slice-panel--inner-bg.card-inner {
   width: 737px;
   height: 387px;
   left: auto;
   top: auto;
-  transform: none;
+  transform: translateY(0);
   flex: 0 0 auto;
   overflow: visible;
   box-sizing: border-box;
+  margin-top: 20px;
+  transition: width 0.4s ease, height 0.4s ease, transform 0.4s ease;
+}
+
+/* Start page: larger card, shifted down slightly; transitions to quiz size and position when user clicks Start */
+.main-interface .nine-slice-panel--outer-bg .nine-slice-panel--inner-bg.card-inner.card-inner--start {
+  width: 740px;
+  height: 466px;
+  transform: translateY(24px);
+}
+
+/* Results page (drink recommendations): same size as start-section inner card */
+.main-interface .nine-slice-panel--outer-bg .nine-slice-panel--inner-bg.card-inner.card-inner--results {
+  width: 740px;
+  height: 480px;
+  transform: translateY(50px);
 }
 
 .main-interface .nine-slice-panel--outer-bg .nine-slice-panel--inner-bg.card-inner.card-inner--coffee {
@@ -819,15 +904,47 @@ body {
   min-height: 0;
 }
 
-/* Left/right slices overlap center to hide seams; keep them on top */
+/* Left/right (and corners) overlap center to hide seams; keep them on top */
 .main-interface .nine-slice-panel--outer-bg .nine-slice-panel--inner-bg.card-inner > .nine-slice-left,
-.main-interface .nine-slice-panel--outer-bg .nine-slice-panel--inner-bg.card-inner > .nine-slice-right {
+.main-interface .nine-slice-panel--outer-bg .nine-slice-panel--inner-bg.card-inner > .nine-slice-right,
+.main-interface .nine-slice-panel--outer-bg .nine-slice-panel--inner-bg.card-inner > .nine-slice-top,
+.main-interface .nine-slice-panel--outer-bg .nine-slice-panel--inner-bg.card-inner > .nine-slice-top-left,
+.main-interface .nine-slice-panel--outer-bg .nine-slice-panel--inner-bg.card-inner > .nine-slice-top-right,
+.main-interface .nine-slice-panel--outer-bg .nine-slice-panel--inner-bg.card-inner > .nine-slice-bottom,
+.main-interface .nine-slice-panel--outer-bg .nine-slice-panel--inner-bg.card-inner > .nine-slice-bottom-left,
+.main-interface .nine-slice-panel--outer-bg .nine-slice-panel--inner-bg.card-inner > .nine-slice-bottom-right {
+  z-index: 1;
+}
+/* Inner card: top/bottom edges overlap center to hide seams (translateY) */
+.main-interface .nine-slice-panel--outer-bg .nine-slice-panel--inner-bg.card-inner > .nine-slice-top {
+  transform: translateY(4px);
+}
+.main-interface .nine-slice-panel--outer-bg .nine-slice-panel--inner-bg.card-inner > .nine-slice-top-left {
+  transform: translate(4px, 4px);
+}
+.main-interface .nine-slice-panel--outer-bg .nine-slice-panel--inner-bg.card-inner > .nine-slice-top-right {
+  transform: translate(-4px, 4px);
+}
+.main-interface .nine-slice-panel--outer-bg .nine-slice-panel--inner-bg.card-inner > .nine-slice-bottom {
+  transform: translateY(-4px);
+}
+.main-interface .nine-slice-panel--outer-bg .nine-slice-panel--inner-bg.card-inner > .nine-slice-bottom-left {
+  transform: translate(4px, -4px);
+}
+.main-interface .nine-slice-panel--outer-bg .nine-slice-panel--inner-bg.card-inner > .nine-slice-bottom-right {
+  transform: translate(-4px, -4px);
+}
+.main-interface .nine-slice-panel.nine-slice-panel--outer-bg > .nine-slice-left,
+.main-interface .nine-slice-panel.nine-slice-panel--outer-bg > .nine-slice-right,
+.main-interface .nine-slice-panel.nine-slice-panel--outer-bg > .nine-slice-top-left,
+.main-interface .nine-slice-panel.nine-slice-panel--outer-bg > .nine-slice-top-right,
+.main-interface .nine-slice-panel.nine-slice-panel--outer-bg > .nine-slice-bottom-left,
+.main-interface .nine-slice-panel.nine-slice-panel--outer-bg > .nine-slice-bottom-right {
   z-index: 1;
 }
 
 .main-interface .nine-slice-panel--inner-bg .nine-slice-center {
   padding: 1.5rem;
-  overflow: auto;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -1066,7 +1183,7 @@ body {
 
 .start-section {
   text-align: center;
-  margin-top: 1.5rem;
+  margin-top: 5.5rem;
 }
 
 .start-title {
@@ -1436,20 +1553,26 @@ body {
 }
 
 .recommendations-list {
-  margin-top: 2rem;
-  margin-bottom: 2rem;
   list-style-type: none;
-  padding: 0px;
+  padding: 0;
 }
 
-/* Quiz results: line up the three recommendations horizontally */
+/* Quiz mode: drink recommendations — no top/bottom margin, horizontal layout */
 #results-section .recommendations-list {
+  margin-top: 0;
+  margin-bottom: 0;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
   align-items: flex-start;
   gap: 1.5rem;
+}
+
+/* Coffee mode: finder results list keeps spacing from its container */
+#coffee-finder-results.recommendations-list {
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 #results-section .recommendation-item {
@@ -1484,7 +1607,7 @@ body {
   visibility: visible;
 }
 
-/* Coffee mode: finder results — row layout (content left to right, list flows up to down) */
+/* Coffee mode: finder results — row layout, each item has a background panel */
 #coffee-finder-results .recommendation-item {
   display: flex;
   flex-direction: row;
@@ -1492,6 +1615,11 @@ body {
   gap: 1rem;
   width: 100%;
   margin-bottom: 0;
+  padding: 0.75rem 1rem;
+  background-color: rgba(248, 243, 233, 0.95);
+  border: 2px solid #d8a372;
+  border-radius: 12px;
+  box-sizing: border-box;
   opacity: 0;
   transform: translateY(-20px);
   animation: slideFadeIn 0.5s ease forwards;
@@ -1717,20 +1845,27 @@ body {
   background-image: url("../assets/nine-slice/bottom-right.png");
 }
 
-/* Café.ly main card: use outer-bg folder (edges repeat for dash) */
-.nine-slice-panel--outer-bg .nine-slice-top-left { background-image: url("../assets/outer-bg/top-left.png"); }
+/* Café.ly main card: use outer-bg folder (edges repeat for dash); left/right overlap to hide seams */
+.nine-slice-panel--outer-bg .nine-slice-top-left {
+  background-image: url("../assets/outer-bg/top-left.png");
+  transform: translateX(4px);
+}
 .nine-slice-panel--outer-bg .nine-slice-top {
   background-image: url("../assets/outer-bg/top.png");
   background-repeat: repeat-x;
   background-size: auto 100%;
   background-position: left center;
 }
-.nine-slice-panel--outer-bg .nine-slice-top-right { background-image: url("../assets/outer-bg/top-right.png"); }
+.nine-slice-panel--outer-bg .nine-slice-top-right {
+  background-image: url("../assets/outer-bg/top-right.png");
+  transform: translateX(-4px);
+}
 .nine-slice-panel--outer-bg .nine-slice-left {
   background-image: url("../assets/outer-bg/left.png");
   background-repeat: repeat-y;
   background-size: 100% auto;
   background-position: center top;
+  transform: translateX(4px);
 }
 .nine-slice-panel--outer-bg .nine-slice-center { background-image: url("../assets/outer-bg/center.png"); }
 .nine-slice-panel--outer-bg .nine-slice-right {
@@ -1738,31 +1873,36 @@ body {
   background-repeat: repeat-y;
   background-size: 100% auto;
   background-position: center top;
+  transform: translateX(-4px);
 }
-.nine-slice-panel--outer-bg .nine-slice-bottom-left { background-image: url("../assets/outer-bg/bottom-left.png"); }
+.nine-slice-panel--outer-bg .nine-slice-bottom-left {
+  background-image: url("../assets/outer-bg/bottom-left.png");
+  transform: translateX(4px);
+}
 .nine-slice-panel--outer-bg .nine-slice-bottom {
   background-image: url("../assets/outer-bg/bottom.png");
   background-repeat: repeat-x;
   background-size: auto 100%;
   background-position: left center;
 }
-.nine-slice-panel--outer-bg .nine-slice-bottom-right { background-image: url("../assets/outer-bg/bottom-right.png"); }
+.nine-slice-panel--outer-bg .nine-slice-bottom-right {
+  background-image: url("../assets/outer-bg/bottom-right.png");
+  transform: translateX(-4px);
+}
 
 /* Inner card: use inner-bg folder; all edges no-repeat (stretch) to avoid seams */
-.nine-slice-panel--inner-bg .nine-slice-top-left { background-image: url("../assets/inner-bg/top-left.png"); }
 .nine-slice-panel--inner-bg .nine-slice-top {
   background-image: url("../assets/inner-bg/top.png");
   background-repeat: no-repeat;
   background-size: 100% 100%;
   background-position: center;
 }
-.nine-slice-panel--inner-bg .nine-slice-top-right { background-image: url("../assets/inner-bg/top-right.png"); }
 .nine-slice-panel--inner-bg .nine-slice-left {
   background-image: url("../assets/inner-bg/left.png");
   background-repeat: no-repeat;
   background-size: 100% 100%;
   background-position: center;
-  transform: translateX(0.9px);
+  transform: translateX(4px);
 }
 .nine-slice-panel--inner-bg .nine-slice-center { background-image: url("../assets/inner-bg/center.png"); }
 .nine-slice-panel--inner-bg .nine-slice-right {
@@ -1770,13 +1910,27 @@ body {
   background-repeat: no-repeat;
   background-size: 100% 100%;
   background-position: center;
-  transform: translateX(-0.9px);
+  transform: translateX(-4px);
 }
-.nine-slice-panel--inner-bg .nine-slice-bottom-left { background-image: url("../assets/inner-bg/bottom-left.png"); }
+.nine-slice-panel--inner-bg .nine-slice-top-left {
+  background-image: url("../assets/inner-bg/top-left.png");
+  transform: translateX(4px);
+}
+.nine-slice-panel--inner-bg .nine-slice-top-right {
+  background-image: url("../assets/inner-bg/top-right.png");
+  transform: translateX(-4px);
+}
+.nine-slice-panel--inner-bg .nine-slice-bottom-left {
+  background-image: url("../assets/inner-bg/bottom-left.png");
+  transform: translateX(4px);
+}
+.nine-slice-panel--inner-bg .nine-slice-bottom-right {
+  background-image: url("../assets/inner-bg/bottom-right.png");
+  transform: translateX(-4px);
+}
 .nine-slice-panel--inner-bg .nine-slice-bottom {
   background-image: url("../assets/inner-bg/bottom.png");
   background-repeat: no-repeat;
   background-size: 100% 100%;
   background-position: center;
 }
-.nine-slice-panel--inner-bg .nine-slice-bottom-right { background-image: url("../assets/inner-bg/bottom-right.png"); }

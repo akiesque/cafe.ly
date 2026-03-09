@@ -61,7 +61,10 @@ function updateProgress() {
     const totalQuestions = questions.length;
     const progress = ((currentStep + 1) / totalQuestions) * 100;
     
-    if (progressFill) progressFill.style.width = `${progress}%`;
+    if (progressFill) {
+        progressFill.style.width = `${progress}%`;
+        progressFill.setAttribute('aria-valuenow', Math.round(progress));
+    }
     progressText.textContent = `Question ${currentStep + 1} of ${totalQuestions}`;
 }
 
@@ -278,15 +281,23 @@ function showResults() {
         navArrows.classList.remove('nav-arrows-visible');
         navArrows.setAttribute('aria-hidden', 'true');
     }
+    const cardInnerResults = document.querySelector('.card-inner');
+    if (cardInnerResults) cardInnerResults.classList.add('card-inner--results');
     resultsSection.style.display = 'block';
     resultsSection.style.opacity = '0';
     resultsSection.style.transform = 'translateY(20px)';
-    
+
+    const cardProgressBar = document.getElementById('card-progress-bar');
+    if (cardProgressBar) {
+        cardProgressBar.classList.remove('is-visible');
+        cardProgressBar.setAttribute('aria-hidden', 'true');
+    }
+
     setTimeout(() => {
         resultsSection.style.opacity = '1';
         resultsSection.style.transform = 'translateY(0)';
     }, 50);
-    
+
     window.scrollTo(0, 0);
 }
 
@@ -315,6 +326,11 @@ async function startCoffeeShopFlow() {
     quizSection.style.display = 'none';
     resultsSection.style.display = 'none';
     coffeeFinderUi.style.display = 'block';
+    const cardProgressBarEl = document.getElementById('card-progress-bar');
+    if (cardProgressBarEl) {
+        cardProgressBarEl.classList.remove('is-visible');
+        cardProgressBarEl.setAttribute('aria-hidden', 'true');
+    }
     if (cardInner) cardInner.classList.add('card-inner--coffee');
     if (mainCardPanel) mainCardPanel.classList.add('nine-slice-panel--coffee');
     document.body.classList.add('coffee-mode');
@@ -567,16 +583,26 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Start on welcome screen; quiz appears after clicking Start
     quizSection.style.display = 'none';
     startSection.style.display = 'block';
-    
+
+    const cardInner = document.querySelector('.card-inner');
+    if (cardInner) cardInner.classList.add('card-inner--start');
+
     // Arrow buttons: scroll choices left/right when >= 4 options
     document.getElementById('nav-arrow-left').addEventListener('click', () => scrollOptions('left'));
     document.getElementById('nav-arrow-right').addEventListener('click', () => scrollOptions('right'));
 
-    // Start button -> show quiz and first question
+    // Start button -> show quiz, first question, and progress bar with smooth reveal
+    const cardProgressBar = document.getElementById('card-progress-bar');
     startBtn.addEventListener('click', () => {
+        const inner = document.querySelector('.card-inner');
+        if (inner) inner.classList.remove('card-inner--start');
         startSection.style.display = 'none';
         quizSection.style.display = 'block';
         currentStep = 0;
+        if (cardProgressBar) {
+            cardProgressBar.classList.add('is-visible');
+            cardProgressBar.setAttribute('aria-hidden', 'false');
+        }
         showQuestion();
     });
     
@@ -594,13 +620,20 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         const cardInner = document.querySelector('.card-inner');
         const mainCardPanel = document.getElementById('main-card-panel');
-        if (cardInner) cardInner.classList.remove('card-inner--coffee');
+        if (cardInner) {
+            cardInner.classList.remove('card-inner--coffee');
+            cardInner.classList.remove('card-inner--results');
+        }
         if (mainCardPanel) mainCardPanel.classList.remove('nine-slice-panel--coffee');
         document.body.classList.remove('coffee-mode');
 
-        // Show quiz, hide results
+        // Show quiz, hide results; show progress bar again (card stays quiz size, no --start)
         resultsSection.style.display = 'none';
         quizSection.style.display = 'block';
+        if (cardProgressBar) {
+            cardProgressBar.classList.add('is-visible');
+            cardProgressBar.setAttribute('aria-hidden', 'false');
+        }
         showQuestion();
         window.scrollTo(0, 0);
     });
