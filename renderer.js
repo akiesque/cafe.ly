@@ -215,16 +215,17 @@ function showQuestion() {
 }
 
 function attachDrinkImages() {
-    document.querySelectorAll(".recommendation-item").forEach(item => {
-      const drink = item.dataset.drink.replace(/\s/g, "");
-  
-      const img = document.createElement("img");
-      img.src = `assets/drinks/${drink}.gif`;
-      img.className = "drink-icon";
-  
-      item.appendChild(img);
+    // Only attach drink GIFs to the quiz results list
+    document.querySelectorAll("#results-section .recommendation-item").forEach(item => {
+        const drink = item.textContent.trim().replace(/\s/g, "");
+
+        const img = document.createElement("img");
+        img.src = `assets/drinks/${drink}.gif`;
+        img.className = "drink-icon";
+
+        item.prepend(img);
     });
-  }  
+}
   
 
 // Handle option selection
