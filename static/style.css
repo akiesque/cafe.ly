@@ -1437,21 +1437,34 @@ body {
 .coffee-finder-map {
   border-radius: 1rem;
   overflow: hidden;
-  width: 60%;
+  flex: 0 0 60%;
+  max-width: 60%;
   aspect-ratio: 4 / 3;
-  /* flex: 0 0 auto; */
 }
 
 #coffee-finder-results {
   min-height: 0;
+  height: 100%;
   flex: 1 1 auto;
   overflow-y: auto;
   overflow-x: hidden;
   padding-right: 0.25rem;
   display: flex;
-  flex-direction: column;
   align-items: stretch;
   gap: 0.75rem;
+}
+
+#coffee-finder-results::-webkit-scrollbar {
+  width: 8px;
+}
+
+#coffee-finder-results::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+#coffee-finder-results::-webkit-scrollbar-thumb {
+  background-color: #d8a372;
+  border-radius: 9999px;
 }
 
 #coffee-finder-map {
@@ -1642,10 +1655,10 @@ body {
   padding: 0;
 }
 
-/* Quiz mode: drink recommendations — no top/bottom margin, horizontal layout */
+/* Quiz mode: drink recommendations */
 #results-section .recommendations-list {
   margin-top: 0;
-  margin-bottom: -30px;
+  margin-bottom: -20px;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -1658,6 +1671,8 @@ body {
 #coffee-finder-results.recommendations-list {
   margin-top: 0;
   margin-bottom: 0;
+  padding-top: 15px;
+
 }
 
 #results-section .recommendation-item {
@@ -1713,6 +1728,7 @@ body {
   border-radius: 12px;
   box-sizing: border-box;
   opacity: 0;
+  visibility: visible;
   transform: translateY(-20px);
   animation: slideFadeIn 0.5s ease forwards;
 }
@@ -1811,14 +1827,8 @@ body {
 .back-btn::before {
   content: "";
   position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  width: 75%;
-  height: 75%;
-  max-width: 120px;
-  max-height: 120px;
-  border-radius: 2rem;
+  inset: 6px;
+  border-radius: inherit;
   border: 4px dotted #c8a585;
   pointer-events: none;
   z-index: 0;

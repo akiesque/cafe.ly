@@ -217,10 +217,14 @@ function showQuestion() {
 function attachDrinkImages() {
     // Only attach drink GIFs to the quiz results list
     document.querySelectorAll("#results-section .recommendation-item").forEach(item => {
-        const drink = item.textContent.trim().replace(/\s/g, "");
+        // Prefer the explicit data-drink attribute (set from the recommender result)
+        const drinkName = item.getAttribute("data-drink") || item.textContent;
+        if (!drinkName) return;
+
+        const drinkKey = drinkName.trim().replace(/\s/g, "");
 
         const img = document.createElement("img");
-        img.src = `assets/drinks/${drink}.gif`;
+        img.src = `assets/drinks/${drinkKey}.gif`;
         img.className = "drink-icon";
 
         item.prepend(img);
@@ -292,7 +296,11 @@ function showResults() {
     // Display results
     if (recommendations.length > 0) {
         recommendationsList.innerHTML = recommendations
-         .map(drink => `<li class="recommendation-item" data-drink="${drink}"></li>`)
+            .map(drinkName => `
+                <li class="recommendation-item" data-drink="${drinkName}">
+                    <span class="drink-name">${drinkName}</span>
+                </li>
+            `)
             .join('');
     } else {
         recommendationsList.innerHTML = '<li class="recommendation-item">No drinks match your preferences. Try adjusting your selections!</li>';
