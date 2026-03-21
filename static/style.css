@@ -1437,7 +1437,7 @@ body {
 .coffee-finder-map {
   border-radius: 1rem;
   overflow: hidden;
-  flex: 0 0 60%;
+  flex: 0 0 50%;
   max-width: 60%;
   aspect-ratio: 4 / 3;
 }
