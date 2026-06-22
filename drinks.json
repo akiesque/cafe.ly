@@ -36,15 +36,6 @@
     "caffeine_mg": 63
   },
   {
-    "name": "Matcha Latte",
-    "caffeine": "Medium",
-    "temp": "Either",
-    "flavor": "Sweet",
-    "strength": "Light",
-    " category": " Non-coffee",
-    "caffeine_mg": 50
-  },
-  {
     "name": "Hot Chocolate",
     "caffeine": "None",
     "temp": "Hot",
@@ -108,15 +99,6 @@
     "caffeine_mg": 0
   },
   {
-    "name": "Hot Matcha Latte",
-    "caffeine": "Medium",
-    "temp": "Hot",
-    "flavor": "Earthy",
-    "strength": "Light",
-    " category": " Non-coffee",
-    "caffeine_mg": 50
-  },
-  {
     "name": "Americano",
     "caffeine": "High",
     "temp": "Hot",
@@ -153,9 +135,9 @@
     "caffeine_mg": 125
   },
   {
-    "name": "Iced Spanish Latte",
+    "name": "Spanish Latte",
     "caffeine": "Medium",
-    "temp": "Cold",
+    "temp": "Either",
     "flavor": "Sweet",
     "strength": "Medium",
     " category": " Coffee",
@@ -225,96 +207,6 @@
     "caffeine_mg": 63
   },
   {
-    "name": "Dirty Horchata",
-    "caffeine": "Medium",
-    "temp": "Cold",
-    "flavor": "Creamy",
-    "strength": "Medium",
-    " category": " Non-coffee",
-    "caffeine_mg": 63
-  },
-  {
-    "name": "Iced Dirty Chai",
-    "caffeine": "Medium",
-    "temp": "Cold",
-    "flavor": "Spicy",
-    "strength": "Medium",
-    " category": " Non-coffee",
-    "caffeine_mg": 88
-  },
-  {
-    "name": "Brown Sugar Latte",
-    "caffeine": "Medium",
-    "temp": "Cold",
-    "flavor": "Sweet",
-    "strength": "Medium",
-    " category": " Coffee",
-    "caffeine_mg": 63
-  },
-  {
-    "name": "Iced Brown Sugar Latte",
-    "caffeine": "Medium",
-    "temp": "Cold",
-    "flavor": "Sweet",
-    "strength": "Medium",
-    " category": " Coffee",
-    "caffeine_mg": 63
-  },
-  {
-    "name": "Iced Affogato",
-    "caffeine": "High",
-    "temp": "Cold",
-    "flavor": "Bitter",
-    "strength": "Strong",
-    " category": " Coffee",
-    "caffeine_mg": 125
-  },
-  {
-    "name": "Iced White Chocolate Mocha",
-    "caffeine": "High",
-    "temp": "Cold",
-    "flavor": "Chocolatey",
-    "strength": "Strong",
-    " category": " Coffee",
-    "caffeine_mg": 135
-  },
-  {
-    "name": "Cookies and Cream Frappuccino",
-    "caffeine": "High",
-    "temp": "Cold",
-    "flavor": "Sweet",
-    "strength": "Strong",
-    " category": " Coffee",
-    "caffeine_mg": 130
-  },
-  {
-    "name": "Butterscotch Latte",
-    "caffeine": "Medium",
-    "temp": "Hot",
-    "flavor": "Sweet",
-    "strength": "Medium",
-    " category": " Coffee",
-    "caffeine_mg": 63
-  },
-  {
-    "name": "Biscoff Latte",
-    "caffeine": "Medium",
-    "temp": "Cold",
-    "flavor": "Sweet",
-    "strength": "Medium",
-    " category": " Coffee",
-    "caffeine_mg": 63
-  },
-  {
-    "name": "Iced Pumpkin Spice Latte",
-    "caffeine": "Medium",
-    "temp": "Cold",
-    "flavor": "Spicy",
-    "strength": "Medium",
-    " category": " Coffee",
-    "caffeine_mg": 63
-  },
-  {
     "name": "Iced Salted Caramel",
     "caffeine": "High",
     "temp": "Cold",
@@ -336,15 +228,6 @@
     "name": "Earl Grey Tea",
     "caffeine": "Medium",
     "temp": "Hot",
-    "flavor": "Earthy",
-    "strength": "Light",
-    " category": " Non-coffee",
-    "caffeine_mg": 50
-  },
-  {
-    "name": "Matcha Green Tea Latte",
-    "caffeine": "Medium",
-    "temp": "Either",
     "flavor": "Earthy",
     "strength": "Light",
     " category": " Non-coffee",
